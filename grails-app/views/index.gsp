@@ -8,20 +8,20 @@
 	<script src="js/main.js"></script>
 
 	<style>
-	/*html { overflow: hidden; }*/
-	/*body {*/
-		/*font: 14pt Arial, sans-serif;*/
-		/*background: lightgrey;*/
-		/*display: flex;*/
-		/*flex-direction: column;*/
-		/*height: 100vh;*/
-		/*width: 100%;*/
-		/*margin: 0 0;*/
-	/*}*/
+	%{--html { overflow: hidden; }--}%
+	%{--body {--}%
+		%{--font: 14pt Arial, sans-serif;--}%
+		%{--background: lightgrey;--}%
+		%{--display: flex;--}%
+		%{--flex-direction: column;--}%
+		%{--height: 100vh;--}%
+		%{--width: 100%;--}%
+		%{--margin: 0 0;--}%
+	%{--}--}%
 	canvas {
 		display: inline-block;
 		background: #202020;
-		width: 95%;
+		width: 80%;
 		height: 45%;
 		box-shadow: 0px 0px 10px blue;
 	}
@@ -31,7 +31,7 @@
 		align-items: center;
 		justify-content: space-around;
 		height: 20%;
-		width: 100%;
+		width: 20%;
 	}
 	#record { height: 15vh; }
 	#record.recording {
@@ -40,12 +40,13 @@
 		background: -moz-radial-gradient(center, ellipse cover, #ff0000 0%,lightgrey 75%,lightgrey 100%,#7db9e8 100%);
 		background: radial-gradient(center, ellipse cover, #ff0000 0%,lightgrey 75%,lightgrey 100%,#7db9e8 100%);
 	}
-	#save, #save img { height: 10vh; }
-	#save { opacity: 0.25;}
+	/*#save, #save img { height: 10vh; }*/
+	#save { opacity: 0.25;
+        float:right;}
 	#save[download] { opacity: 1;}
 	#viz {
 		height: 80%;
-		width: 100%;
+		width: 70%;
 		display: flex;
 		flex-direction: column;
 		justify-content: space-around;
@@ -61,12 +62,12 @@
 </head>
 <body>
 	<div id="viz">
-		<canvas id="analyser" width="998" height="250"></canvas>
-		<canvas id="wavedisplay" width="998" height="250"></canvas>
+		<canvas id="analyser"></canvas><input type="button" value="Start & Stop" onclick="toggleRecording(this);">
+		<canvas id="wavedisplay"></canvas>  <a id="save" href="#"><input type="button" value="Export" ></a>
 	</div>
 	<div id="controls">
-		<input type="button" value="Start & Stop" onclick="toggleRecording(this);">
-		<a id="save" href="#"><input type="button" value="Export" ></a>
+
+
 	</div>
 </body>
 </html>
