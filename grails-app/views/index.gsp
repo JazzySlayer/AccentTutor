@@ -66,8 +66,7 @@
 		<canvas id="wavedisplay"></canvas>  <a id="save" href="#"><input type="button" value="Export" ></a>
 	</div>
 	<div id="controls">
-
-
+		<g:link controller="featureExtract" action="index"><input type="button" value="Features"></g:link>
 	</div>
 </body>
 </html>
