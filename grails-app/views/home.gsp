@@ -15,14 +15,16 @@
     <script src="js/recorder.js"></script>
     <script src="js/main.js"></script>
      <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
-    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
 </head>
 
 <body>
-<div class="container">
-    <div class="page-header">
-        <h1>Accent Tutor</h1>
-    </div>
+<div class="jumbotron head">
+    <h1 class="text-center">Accent Tutor</h1>
+</div>
+<div class="container-fluid">
+
+
     <div class="row">
         <div class="col-md-12">
         </div>
@@ -80,12 +82,12 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">Modal Header</h4>
+                        <h4 class="modal-title">Record</h4>
                     </div>
 
                         <div id="viz" class="modal-body">
-                            <canvas id="analyser"></canvas><input type="button" value="Start & Stop" onclick="toggleRecording(this);">
-                            <canvas id="wavedisplay"></canvas>  <a id="save" href="#"><input type="button" value="Export" ></a>
+                            <canvas id="analyser"></canvas><input type="button" value="Start & Stop" class="button" onclick="toggleRecording(this);">
+                            <canvas id="wavedisplay"></canvas>  <a id="save" href="#"><input type="button" class="button" value="Export" ></a>
                         </div>
                     </div>
                     <div class="modal-footer">
