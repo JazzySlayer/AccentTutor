@@ -39,13 +39,12 @@
                 <tr>
                     <td>Hello World</td>
                     <td>
-                        <button type="button" class="btn btn-default btn1" data-toggle="modal" data-target="#myModal">
-                            <span class="glyphicon glyphicon-record "></span>  record
-                        </button>
+                        <g:link controller="MFCC" action="index">
+                            <button type="button" class="btn btn-default btn1">
+                                <span class="glyphicon glyphicon-record "></span>  Features
+                            </button>
+                        </g:link>
                     </td>
-                    </tr>
-                <tr>
-                    <td>Hello World   \!!!!</td>
                     <td>
                         <button type="button" class="btn btn-default btn1" data-toggle="modal" data-target="#myModal">
                             <span class="glyphicon glyphicon-record "></span>  record
@@ -53,13 +52,20 @@
                     </td>
                     </tr>
                 <tr>
-                    <td>Hello World ^#^</td>
+                    <td>Namaste</td>
+                    <td>
+                        <g:link controller="MFCC" action="index">
+                            <button type="button" class="btn btn-default btn1">
+                                <span class="glyphicon glyphicon-record "></span>  Features
+                            </button>
+                        </g:link>
+                    </td>
                     <td>
                         <button type="button" class="btn btn-default btn1" data-toggle="modal" data-target="#myModal">
                             <span class="glyphicon glyphicon-record "></span>  record
                         </button>
                     </td>
-                </tr>
+                    </tr>
                 </tbody>
             </table>
         </div>
