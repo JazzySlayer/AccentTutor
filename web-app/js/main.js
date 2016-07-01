@@ -48,7 +48,13 @@ function gotBuffers( buffers ) {
 }
 
 function doneEncoding( blob ) {
-    Recorder.setupDownload( blob, "myRecording" + ((recIndex<10)?"0":"") + recIndex + ".wav" );
+    var fileName =  document.getElementById( "fileName").value;
+    if(fileName){
+        Recorder.setupDownload( blob, fileName + ".wav" );
+    }
+    else{
+        Recorder.setupDownload( blob, "ownRecording" + ((recIndex<10)?"0":"") + recIndex + ".wav" );
+    }
     recIndex++;
 }
 
