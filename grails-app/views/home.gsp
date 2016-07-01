@@ -14,8 +14,8 @@
     <script src="js/audiodisplay.js"></script>
     <script src="js/recorder.js"></script>
     <script src="js/main.js"></script>
-     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
-    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+     <script src="js/jquery.js"></script>
+    <script src="js/bootstrap.min.js"></script>
 </head>
 
 <body>
@@ -37,13 +37,12 @@
                 <tr>
                     <td>Hello World</td>
                     <td>
-                        <button type="button" class="btn btn-default btn1" data-toggle="modal" data-target="#myModal">
-                            <span class="glyphicon glyphicon-record "></span>  record
-                        </button>
+                        <g:link controller="MFCC" action="index">
+                            <button type="button" class="btn btn-default btn1">
+                                <span class="glyphicon glyphicon-record "></span>  Features
+                            </button>
+                        </g:link>
                     </td>
-                    </tr>
-                <tr>
-                    <td>Hello World   \!!!!</td>
                     <td>
                         <button type="button" class="btn btn-default btn1" data-toggle="modal" data-target="#myModal">
                             <span class="glyphicon glyphicon-record "></span>  record
@@ -51,13 +50,20 @@
                     </td>
                     </tr>
                 <tr>
-                    <td>Hello World ^#^</td>
+                    <td>Namaste</td>
+                    <td>
+                        <g:link controller="MFCC" action="index">
+                            <button type="button" class="btn btn-default btn1">
+                                <span class="glyphicon glyphicon-record "></span>  Features
+                            </button>
+                        </g:link>
+                    </td>
                     <td>
                         <button type="button" class="btn btn-default btn1" data-toggle="modal" data-target="#myModal">
                             <span class="glyphicon glyphicon-record "></span>  record
                         </button>
                     </td>
-                </tr>
+                    </tr>
                 </tbody>
             </table>
         </div>
