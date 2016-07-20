@@ -14,8 +14,15 @@
     <script src="js/audiodisplay.js"></script>
     <script src="js/recorder.js"></script>
     <script src="js/main.js"></script>
-     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+     <script src="js/jquery.js"></script>
     <script src="js/bootstrap.min.js"></script>
+    <script>
+        var ownfilename="myrecording00";
+        function changeName(value){
+            $("#fileName").val(value);
+            console.log("-----------------"+$("#fileName").val())
+        }
+    </script>
 </head>
 
 <body>
@@ -29,7 +36,7 @@
         <div class="col-md-12">
         </div>
     </div>
-
+    <input type="hidden" id="fileName">
     <div class="row">
         <div class="col-md-2">
         </div>
@@ -39,27 +46,33 @@
                 <tr>
                     <td>Hello World</td>
                     <td>
-                        <button type="button" class="btn btn-default btn1" data-toggle="modal" data-target="#myModal">
+                        <g:link controller="MFCC" action="index" params="[name:'Hello World']">
+                            <button type="button" class="btn btn-default btn1">
+                                <span class="glyphicon glyphicon-record "></span>  Features
+                            </button>
+                        </g:link>
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-default btn1" data-toggle="modal" data-target="#myModal" onclick='changeName("Hello World");'>
                             <span class="glyphicon glyphicon-record "></span>  record
                         </button>
                     </td>
                     </tr>
                 <tr>
-                    <td>Hello World   \!!!!</td>
+                    <td>Namaste</td>
                     <td>
-                        <button type="button" class="btn btn-default btn1" data-toggle="modal" data-target="#myModal">
+                        <g:link controller="MFCC" action="index" params="[name:'Namaste']">
+                            <button type="button" class="btn btn-default btn1">
+                                <span class="glyphicon glyphicon-record "></span>  Features
+                            </button>
+                        </g:link>
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-default btn1" data-toggle="modal" data-target="#myModal" onclick='changeName("Namaste")'>
                             <span class="glyphicon glyphicon-record "></span>  record
                         </button>
                     </td>
                     </tr>
-                <tr>
-                    <td>Hello World ^#^</td>
-                    <td>
-                        <button type="button" class="btn btn-default btn1" data-toggle="modal" data-target="#myModal">
-                            <span class="glyphicon glyphicon-record "></span>  record
-                        </button>
-                    </td>
-                </tr>
                 </tbody>
             </table>
         </div>

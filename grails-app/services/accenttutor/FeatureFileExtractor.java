@@ -17,15 +17,14 @@
 
 package accenttutor;
 
-import java.io.DataOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.Vector;
-
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.UnsupportedAudioFileException;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Vector;
 
 
 public class FeatureFileExtractor {
@@ -125,7 +124,7 @@ public class FeatureFileExtractor {
 
 	}*/
 
-    public static void computeFeatures(String fileName, String inputFolder) throws IllegalArgumentException, IOException, UnsupportedAudioFileException {
+    public static void computeFeatures(String fileName, String inputFolder, String outputFolder) throws IllegalArgumentException, IOException, UnsupportedAudioFileException {
 
         // read the wav file
         String wavFile = inputFolder + "/" + fileName + ".wav";
@@ -137,53 +136,75 @@ public class FeatureFileExtractor {
         boolean useFirstCoefficient = false;
         MFCC feat = new MFCC(sampleRate, windowSize, numberCoefficients, useFirstCoefficient, minFreq, maxFreq, numberFilters);
         Vector <double[]> features = feat.process(in,audioIn);
+		FileWriter writer = null;
+		boolean close = false;
+		BufferedWriter bufferedWriter = null;
+		try {
+			writer = new FileWriter("C:/Users/Sushant/Desktop/myrecording00.txt", true);
+			bufferedWriter = new BufferedWriter(writer);
+			System.out.println("Vector Size :"+features.size());
 
-        System.out.println("Vector Size :"+features.size());
-        double arr[];
-        for (double[] feature : features) {
-            arr = feature;
-            for (double anArr : arr) {
-                System.out.print((float) anArr + " ");
-            }
-//            System.out.println();
-        }
+			double arr[];
+			for (double[] feature : features) {
+				arr = feature;
+				for (double anArr : arr) {
+					Float aFloat = new Float(anArr);
+					if(!(aFloat.isInfinite())&&!(aFloat.isNaN())){
+						bufferedWriter.write(anArr + ",");
+					}
+					else{
+						close=true;
+						break;
+					}
+				}
+				if(close){
+					bufferedWriter.newLine();
+					break;
+				} else{
+					bufferedWriter.newLine();
+				}
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
 
         // writing the  feature file
-		/*FileOutputStream fos = null;
-	    DataOutputStream dos = null;
-	    String outputFile = outputFolder + "/" + fileName + ".mfc";
-	    try{
-	    	// create file output stream
-	    	File filedir = new File(outputFile);
-	    	File parent_dir = filedir.getParentFile();
-
-	    	if (null != parent_dir)
-	    	{
-	    		parent_dir.mkdirs();
-	    	}
-
-	    	fos = new FileOutputStream(outputFile);
-	    	// create data output stream
-	    	dos = new DataOutputStream(fos);
-	    	double arr[];
-	    	dos.writeInt(features.size() * 13);
-	    	for(int i = 0; i < features.size(); i++){
-	    		arr = features.get(i);
-	    		for(int j = 0; j < arr.length; j++){
-					//System.out.print((float)arr[j] + " ");
-	    			dos.writeFloat((float) arr[j]);
-		    	}
-	    	//System.out.println();
-	    	}
-
-	    }catch(Exception e){
-         // if any I/O error occurs
-         e.printStackTrace();
-	    }finally{ if(dos != null)
-	    	dos.close();
-	    if(fos!=null)
-         fos.close();
-	    }*/
+//		FileOutputStream fos = null;
+//	    DataOutputStream dos = null;
+//	    String outputFile = outputFolder + "/" + fileName + ".txt";
+//	    try{
+//	    	// create file output stream
+//	    	File filedir = new File(outputFile);
+//	    	File parent_dir = filedir.getParentFile();
+//
+//	    	if (null != parent_dir)
+//	    	{
+//	    		parent_dir.mkdirs();
+//	    	}
+//
+//	    	fos = new FileOutputStream(outputFile);
+//	    	// create data output stream
+//	    	dos = new DataOutputStream(fos);
+//	    	double arr[];
+//	    	dos.writeInt(features.size() * 13);
+//	    	for(int i = 0; i < features.size(); i++){
+//	    		arr = features.get(i);
+//	    		for(int j = 0; j < arr.length; j++){
+//					//System.out.print((float)arr[j] + " ");
+//	    			dos.writeFloat((float) arr[j]);
+//		    	}
+//	    	//System.out.println();
+//	    	}
+//
+//	    }catch(Exception e){
+//         // if any I/O error occurs
+//         e.printStackTrace();
+//	    }finally{ if(dos != null)
+//	    	dos.close();
+//	    if(fos!=null)
+//         fos.close();
+//	    }
 
     }
 
