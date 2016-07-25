@@ -1,11 +1,10 @@
 
 package accenttutor;
 
+import javax.sound.sampled.AudioInputStream;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Vector;
-
-import javax.sound.sampled.AudioInputStream;
 
 /**
  * <b>Mel Frequency Cepstrum Coefficients - MFCCs</b>
@@ -413,7 +412,7 @@ private double[] preEmphasis(double inputSignal[]) {
           return outputSignal;
   }
   
-
+   //MFCC starts
 public Vector<double[]> process(AudioPreProcessor in, AudioInputStream ais) throws IllegalArgumentException, IOException
 {
   //check in

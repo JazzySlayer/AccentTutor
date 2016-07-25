@@ -140,7 +140,7 @@ public class FeatureFileExtractor {
 		boolean close = false;
 		BufferedWriter bufferedWriter = null;
 		try {
-			writer = new FileWriter("C:/Users/Sushant/Desktop/myrecording00.txt", true);
+			writer = new FileWriter("C:/Users/Sushant/Desktop/"+fileName+".txt", true);
 			bufferedWriter = new BufferedWriter(writer);
 			System.out.println("Vector Size :"+features.size());
 
@@ -150,7 +150,8 @@ public class FeatureFileExtractor {
 				for (double anArr : arr) {
 					Float aFloat = new Float(anArr);
 					if(!(aFloat.isInfinite())&&!(aFloat.isNaN())){
-						bufferedWriter.write(anArr + ",");
+						bufferedWriter.write(String.valueOf(anArr));
+						bufferedWriter.newLine();
 					}
 					else{
 						close=true;
@@ -158,10 +159,7 @@ public class FeatureFileExtractor {
 					}
 				}
 				if(close){
-					bufferedWriter.newLine();
 					break;
-				} else{
-					bufferedWriter.newLine();
 				}
 			}
 		} catch (IOException e) {

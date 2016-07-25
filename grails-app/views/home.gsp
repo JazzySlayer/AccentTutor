@@ -45,6 +45,9 @@
                 <tbody>
                 <tr>
                     <td>Hello World</td>
+                    <td><a href="media/one.mp3">
+                       <input type="button" name="play">Play
+                    </a></td>
                     <td>
                         <g:link controller="MFCC" action="index" params="[name:'Hello World']">
                             <button type="button" class="btn btn-default btn1">
