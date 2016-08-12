@@ -128,7 +128,6 @@ public class FeatureFileExtractor {
 
 		// read the wav file
 		List<Float> originalList = new ArrayList<Float>();
-		List<Float> recordedList = new ArrayList<Float>();
 		String wavFile = inputFolder + "/" + fileName + ".wav";
 		File soundfile = new File(wavFile);
 		AudioInputStream audioIn = AudioSystem.getAudioInputStream(soundfile);
@@ -139,7 +138,7 @@ public class FeatureFileExtractor {
 		boolean close = false;
 		double arr[];
 		int m1 = 0;
-		DTW dtw;
+
 		for (double[] feature : features) {
 			arr = feature;
 			for (double anArr : arr) {
@@ -157,9 +156,11 @@ public class FeatureFileExtractor {
 			}
 		}
 		String whichOne = "";
-		double answer = 0;
+		double answer ;
 		int file_num = 0;
 		do {
+			answer = 0;
+			List<Float> recordedList = new ArrayList<Float>();
 			file_num++;
 			wavFile = inputFolder + "/"+file_num+"_namaste.wav";
 			soundfile = new File(wavFile);
@@ -191,6 +192,9 @@ public class FeatureFileExtractor {
 			float[] orginals = new float[originalList.size()];
 			float[] records = new float[recordedList.size()];
 
+
+			System.out.println(originalList.size()+" ----- "+recordedList.size());
+
 			int i = 0;
 			for (float anArr : originalList) {
 				orginals[i++] = anArr;
@@ -202,10 +206,11 @@ public class FeatureFileExtractor {
 //			System.out.println("anArr = " + records[i++]);
 			}
 
-			dtw = new DTW(orginals, records);
+			DTW dtw = new DTW(orginals, records);
 
 			answer = dtw.getDistance();
-		} while (answer < 1.5&&file_num<6);
+			System.out.println("answer = " + answer + "i = " + file_num);
+		} while (answer > 1.5 && file_num < 5);
 
 
 

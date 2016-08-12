@@ -16,7 +16,7 @@ class MFCCController {
 
 
         FeatureFileExtractor featureFileExtractor = new FeatureFileExtractor()
-        featureFileExtractor.computeFeatures("kA1","C:\\Users\\Sushant\\Downloads","C:\\Users\\Sushant\\Desktop")
+        featureFileExtractor.computeFeatures("namaste","C:\\Users\\Sushant\\Downloads","C:\\Users\\Sushant\\Desktop")       //tyo kA1 ko satta record
 //        FeatureFileExtractor featureFileExtractor1 = new FeatureFileExtractor()
 //        featureFileExtractor1.computeFeatures("myRecording01","C:\\Users\\Sushant\\Downloads","C:\\Users\\Sushant\\Downloads")
 
