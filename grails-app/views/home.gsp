@@ -19,6 +19,7 @@
     <script>
         var ownfilename="myrecording00";
         function changeName(value){
+            value+="_record"
             $("#fileName").val(value);
             console.log("-----------------"+$("#fileName").val())
         }

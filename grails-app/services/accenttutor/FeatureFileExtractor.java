@@ -20,10 +20,10 @@ package accenttutor;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.UnsupportedAudioFileException;
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
 
 
@@ -126,48 +126,92 @@ public class FeatureFileExtractor {
 
     public static void computeFeatures(String fileName, String inputFolder, String outputFolder) throws IllegalArgumentException, IOException, UnsupportedAudioFileException {
 
-        // read the wav file
-        String wavFile = inputFolder + "/" + fileName + ".wav";
-        System.out.println("converting " + wavFile + " to mfc...");
-        File soundfile = new File(wavFile);
-        AudioInputStream audioIn = AudioSystem.getAudioInputStream(soundfile);
-        AudioPreProcessor in = new AudioPreProcessor(audioIn,sampleRate);
-
-        boolean useFirstCoefficient = false;
-        MFCC feat = new MFCC(sampleRate, windowSize, numberCoefficients, useFirstCoefficient, minFreq, maxFreq, numberFilters);
-        Vector <double[]> features = feat.process(in,audioIn);
-		FileWriter writer = null;
+		// read the wav file
+		List<Float> originalList = new ArrayList<Float>();
+		List<Float> recordedList = new ArrayList<Float>();
+		String wavFile = inputFolder + "/" + fileName + ".wav";
+		File soundfile = new File(wavFile);
+		AudioInputStream audioIn = AudioSystem.getAudioInputStream(soundfile);
+		AudioPreProcessor in = new AudioPreProcessor(audioIn, sampleRate);
+		boolean useFirstCoefficient = false;
+		MFCC feat = new MFCC(sampleRate, windowSize, numberCoefficients, useFirstCoefficient, minFreq, maxFreq, numberFilters);
+		Vector<double[]> features = feat.process(in, audioIn);
 		boolean close = false;
-		BufferedWriter bufferedWriter = null;
-		try {
-			writer = new FileWriter("C:/Users/Sushant/Desktop/"+fileName+".txt", true);
-			bufferedWriter = new BufferedWriter(writer);
-			System.out.println("Vector Size :"+features.size());
-
-			double arr[];
-			for (double[] feature : features) {
-				arr = feature;
-				for (double anArr : arr) {
-					Float aFloat = new Float(anArr);
-					if(!(aFloat.isInfinite())&&!(aFloat.isNaN())){
-						bufferedWriter.write(String.valueOf(anArr));
-						bufferedWriter.newLine();
-					}
-					else{
-						close=true;
-						break;
-					}
-				}
-				if(close){
+		double arr[];
+		int m1 = 0;
+		DTW dtw;
+		for (double[] feature : features) {
+			arr = feature;
+			for (double anArr : arr) {
+				m1++;
+				Float aFloat = new Float(anArr);
+				if (!(aFloat.isInfinite()) && !(aFloat.isNaN())) {
+					originalList.add(aFloat);
+				} else {
+					close = true;
 					break;
 				}
 			}
-		} catch (IOException e) {
-			e.printStackTrace();
+			if (close) {
+				break;
+			}
 		}
+		String whichOne = "";
+		double answer = 0;
+		int file_num = 0;
+		do {
+			file_num++;
+			wavFile = inputFolder + "/"+file_num+"_namaste.wav";
+			soundfile = new File(wavFile);
+			audioIn = AudioSystem.getAudioInputStream(soundfile);
+			in = new AudioPreProcessor(audioIn, sampleRate);
+			useFirstCoefficient = false;
+			feat = new MFCC(sampleRate, windowSize, numberCoefficients, useFirstCoefficient, minFreq, maxFreq, numberFilters);
+			features = feat.process(in, audioIn);
+			close = false;
+			double arr1[];
+			m1 = 0;
+			for (double[] feature : features) {
+				arr1 = feature;
+				for (double anArr : arr1) {
+					m1++;
+					Float aFloat = new Float(anArr);
+					if (!(aFloat.isInfinite()) && !(aFloat.isNaN())) {
+						recordedList.add(aFloat);
+					} else {
+						close = true;
+						break;
+					}
+				}
+				if (close) {
+					break;
+				}
+			}
+
+			float[] orginals = new float[originalList.size()];
+			float[] records = new float[recordedList.size()];
+
+			int i = 0;
+			for (float anArr : originalList) {
+				orginals[i++] = anArr;
+//			System.out.println("orginals = " + orginals[i++] + "i = " + i);
+			}
+			i = 0;
+			for (float anArr : recordedList) {
+				records[i++] = anArr;
+//			System.out.println("anArr = " + records[i++]);
+			}
+
+			dtw = new DTW(orginals, records);
+
+			answer = dtw.getDistance();
+		} while (answer < 1.5&&file_num<6);
 
 
-        // writing the  feature file
+
+
+
+		// writing the  feature file
 //		FileOutputStream fos = null;
 //	    DataOutputStream dos = null;
 //	    String outputFile = outputFolder + "/" + fileName + ".txt";
