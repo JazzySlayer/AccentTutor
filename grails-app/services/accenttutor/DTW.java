@@ -134,7 +134,7 @@ public class DTW {
      * @return              the distance between two points
      */
     protected float distanceBetween(float p1, float p2) {
-        return (p1 - p2) * (p1 - p2);
+        return (p1 - p2) *  (p1 - p2);
     }
     //HERE p1=(p1-p2)*(p1-p2)
     //here p2=(p1-p2)*(p1-p2)
