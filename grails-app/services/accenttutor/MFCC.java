@@ -49,12 +49,12 @@ public class MFCC
   protected boolean useFirstCoefficient;
 
   //implementation details
-  private double[] inputData;
-  private double[] buffer;
-  private Matrix dctMatrix;
-  private Matrix melFilterBanks;
-  private FFT normalizedPowerFFT;
-  private double scale;
+    private double[] inputData;
+    private double[] buffer;
+    private Matrix dctMatrix;
+    private Matrix melFilterBanks;
+    private FFT normalizedPowerFFT;
+    private double scale;
 
 
   /**

@@ -1,21 +1,13 @@
 package accenttutor;
 
-import java.text.NumberFormat;
+import javax.xml.stream.*;
+import java.io.*;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+import java.text.NumberFormat;
 import java.util.Locale;
 import java.util.StringTokenizer;
 import java.util.Vector;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
-import java.io.IOException;
-import java.io.Serializable;
-import java.io.OutputStream;
-import java.io.InputStream;
-import javax.xml.stream.*;
 
 /**
    Jama = Java Matrix class.
@@ -75,7 +67,7 @@ public class Matrix implements Cloneable, XMLSerializable, Serializable
    private double[][] A;
 
    /**Number of rows. @serial number of rows. */
-   private int m;
+   private int row;
    /**Number of columns. @serial number of columns. */
    private int n;
 
@@ -89,7 +81,7 @@ public class Matrix implements Cloneable, XMLSerializable, Serializable
    */
 
    public Matrix (int m, int n) {
-      this.m = m;
+      this.row = m;
       this.n = n;
       A = new double[m][n];
    }
@@ -101,7 +93,7 @@ public class Matrix implements Cloneable, XMLSerializable, Serializable
    */
 
    public Matrix (int m, int n, double s) {
-      this.m = m;
+      this.row = m;
       this.n = n;
       A = new double[m][n];
       for (int i = 0; i < m; i++) {
@@ -118,9 +110,9 @@ public class Matrix implements Cloneable, XMLSerializable, Serializable
    */
 
    public Matrix (double[][] A) {
-      m = A.length;
+      row = A.length;
       n = A[0].length;
-      for (int i = 0; i < m; i++) {
+      for (int i = 0; i < row; i++) {
          if (A[i].length != n) {
             throw new IllegalArgumentException("All rows must have the same length.");
          }
@@ -133,10 +125,10 @@ public class Matrix implements Cloneable, XMLSerializable, Serializable
    @param m    Number of rows.
    @param n    Number of colums.
    */
-
+   //Needed ONe
    public Matrix (double[][] A, int m, int n) {
       this.A = A;
-      this.m = m;
+      this.row = m;
       this.n = n;
    }
 
@@ -147,7 +139,7 @@ public class Matrix implements Cloneable, XMLSerializable, Serializable
    */
 
    public Matrix (double vals[], int m) {
-      this.m = m;
+      this.row = m;
       n = (m != 0 ? vals.length/m : 0);
       if (m*n != vals.length) {
          throw new IllegalArgumentException("Array length must be a multiple of m.");
@@ -166,20 +158,20 @@ public class Matrix implements Cloneable, XMLSerializable, Serializable
     * is a row of the matrix to create. All double[] items must be of the same length.
     */
    public Matrix (Vector<double[]> rows, boolean clone){
-	   m = rows.size();
+      row = rows.size();
 	   n = rows.get(0).length;
-	   A = new double[m][n];
+	   A = new double[row][n];
 	   if(clone){
-		   for(int i=0; i<m; i++)
+		   for(int i=0; i<row; i++)
 			   A[i] = rows.get(i).clone();
 	   }
 	   else{
-		   for(int i=0; i<m; i++)
+		   for(int i=0; i<row; i++)
 		   A[i] = rows.get(i);
 	   }
 
 	   // sanity check:
-	   for(int i=0; i<m; i++)
+	   for(int i=0; i<row; i++)
 		   if(A[i].length != n)
 			   (new IllegalArgumentException("Length of row "+i+" is "+ A[i].length+". Should be "+n)).printStackTrace();
    }
@@ -214,9 +206,9 @@ public class Matrix implements Cloneable, XMLSerializable, Serializable
    */
 
    public Matrix copy () {
-      Matrix X = new Matrix(m,n);
+      Matrix X = new Matrix(row,n);
       double[][] C = X.getArray();
-      for (int i = 0; i < m; i++) {
+      for (int i = 0; i < row; i++) {
          for (int j = 0; j < n; j++) {
             C[i][j] = A[i][j];
          }
@@ -244,9 +236,9 @@ public class Matrix implements Cloneable, XMLSerializable, Serializable
    */
 
    public double[][] getArrayCopy () {
-      double[][] C = new double[m][n];
-      for (int i = 0; i < m; i++) {
-         for (int j = 0; j < n; j++) {
+      double[][] C = new double[row][n];
+      for (int i = 0; i < row; i++) {
+         for (int j = 0; j < row; j++) {
             C[i][j] = A[i][j];
          }
       }
@@ -258,10 +250,10 @@ public class Matrix implements Cloneable, XMLSerializable, Serializable
    */
 
    public double[] getColumnPackedCopy () {
-      double[] vals = new double[m*n];
-      for (int i = 0; i < m; i++) {
+      double[] vals = new double[row*n];
+      for (int i = 0; i < row; i++) {
          for (int j = 0; j < n; j++) {
-            vals[i+j*m] = A[i][j];
+            vals[i+j*row] = A[i][j];
          }
       }
       return vals;
@@ -272,8 +264,8 @@ public class Matrix implements Cloneable, XMLSerializable, Serializable
    */
 
    public double[] getRowPackedCopy () {
-      double[] vals = new double[m*n];
-      for (int i = 0; i < m; i++) {
+      double[] vals = new double[row*n];
+      for (int i = 0; i < row; i++) {
          for (int j = 0; j < n; j++) {
             vals[i*n+j] = A[i][j];
          }
@@ -286,7 +278,7 @@ public class Matrix implements Cloneable, XMLSerializable, Serializable
    */
 
    public int getRowDimension () {
-      return m;
+      return row;
    }
 
    /** Get column dimension.
@@ -496,9 +488,9 @@ public class Matrix implements Cloneable, XMLSerializable, Serializable
    */
 
    public Matrix transpose () {
-      Matrix X = new Matrix(n,m);
+      Matrix X = new Matrix(n,row);
       double[][] C = X.getArray();
-      for (int i = 0; i < m; i++) {
+      for (int i = 0; i < row; i++) {
          for (int j = 0; j < n; j++) {
             C[j][i] = A[i][j];
          }
@@ -514,7 +506,7 @@ public class Matrix implements Cloneable, XMLSerializable, Serializable
       double f = 0;
       for (int j = 0; j < n; j++) {
          double s = 0;
-         for (int i = 0; i < m; i++) {
+         for (int i = 0; i < row; i++) {
             s += Math.abs(A[i][j]);
          }
          f = Math.max(f,s);
@@ -536,7 +528,7 @@ public class Matrix implements Cloneable, XMLSerializable, Serializable
 
    public double normInf () {
       double f = 0;
-      for (int i = 0; i < m; i++) {
+      for (int i = 0; i < row; i++) {
          double s = 0;
          for (int j = 0; j < n; j++) {
             s += Math.abs(A[i][j]);
@@ -565,9 +557,9 @@ public class Matrix implements Cloneable, XMLSerializable, Serializable
    */
 
    public Matrix uminus () {
-      Matrix X = new Matrix(m,n);
+      Matrix X = new Matrix(row,n);
       double[][] C = X.getArray();
-      for (int i = 0; i < m; i++) {
+      for (int i = 0; i < row; i++) {
          for (int j = 0; j < n; j++) {
             C[i][j] = -A[i][j];
          }
@@ -582,9 +574,9 @@ public class Matrix implements Cloneable, XMLSerializable, Serializable
 
    public Matrix plus (Matrix B) {
       checkMatrixDimensions(B);
-      Matrix X = new Matrix(m,n);
+      Matrix X = new Matrix(row,n);
       double[][] C = X.getArray();
-      for (int i = 0; i < m; i++) {
+      for (int i = 0; i < row; i++) {
          for (int j = 0; j < n; j++) {
             C[i][j] = A[i][j] + B.A[i][j];
          }
@@ -599,7 +591,7 @@ public class Matrix implements Cloneable, XMLSerializable, Serializable
 
    public Matrix plusEquals (Matrix B) {
       checkMatrixDimensions(B);
-      for (int i = 0; i < m; i++) {
+      for (int i = 0; i < row; i++) {
          for (int j = 0; j < n; j++) {
             A[i][j] = A[i][j] + B.A[i][j];
          }
@@ -614,9 +606,9 @@ public class Matrix implements Cloneable, XMLSerializable, Serializable
 
    public Matrix minus (Matrix B) {
       checkMatrixDimensions(B);
-      Matrix X = new Matrix(m,n);
+      Matrix X = new Matrix(row,n);
       double[][] C = X.getArray();
-      for (int i = 0; i < m; i++) {
+      for (int i = 0; i < row; i++) {
          for (int j = 0; j < n; j++) {
             C[i][j] = A[i][j] - B.A[i][j];
          }
@@ -631,7 +623,7 @@ public class Matrix implements Cloneable, XMLSerializable, Serializable
 
    public Matrix minusEquals (Matrix B) {
       checkMatrixDimensions(B);
-      for (int i = 0; i < m; i++) {
+      for (int i = 0; i < row; i++) {
          for (int j = 0; j < n; j++) {
             A[i][j] = A[i][j] - B.A[i][j];
          }
@@ -646,9 +638,9 @@ public class Matrix implements Cloneable, XMLSerializable, Serializable
 
    public Matrix arrayTimes (Matrix B) {
       checkMatrixDimensions(B);
-      Matrix X = new Matrix(m,n);
+      Matrix X = new Matrix(row,n);
       double[][] C = X.getArray();
-      for (int i = 0; i < m; i++) {
+      for (int i = 0; i < row; i++) {
          for (int j = 0; j < n; j++) {
             C[i][j] = A[i][j] * B.A[i][j];
          }
@@ -663,7 +655,7 @@ public class Matrix implements Cloneable, XMLSerializable, Serializable
 
    public Matrix arrayTimesEquals (Matrix B) {
       checkMatrixDimensions(B);
-      for (int i = 0; i < m; i++) {
+      for (int i = 0; i < row; i++) {
          for (int j = 0; j < n; j++) {
             A[i][j] = A[i][j] * B.A[i][j];
          }
@@ -678,9 +670,9 @@ public class Matrix implements Cloneable, XMLSerializable, Serializable
 
    public Matrix arrayRightDivide (Matrix B) {
       checkMatrixDimensions(B);
-      Matrix X = new Matrix(m,n);
+      Matrix X = new Matrix(row,n);
       double[][] C = X.getArray();
-      for (int i = 0; i < m; i++) {
+      for (int i = 0; i < row; i++) {
          for (int j = 0; j < n; j++) {
             C[i][j] = A[i][j] / B.A[i][j];
          }
@@ -695,7 +687,7 @@ public class Matrix implements Cloneable, XMLSerializable, Serializable
 
    public Matrix arrayRightDivideEquals (Matrix B) {
       checkMatrixDimensions(B);
-      for (int i = 0; i < m; i++) {
+      for (int i = 0; i < row; i++) {
          for (int j = 0; j < n; j++) {
             A[i][j] = A[i][j] / B.A[i][j];
          }
@@ -710,9 +702,9 @@ public class Matrix implements Cloneable, XMLSerializable, Serializable
 
    public Matrix arrayLeftDivide (Matrix B) {
       checkMatrixDimensions(B);
-      Matrix X = new Matrix(m,n);
+      Matrix X = new Matrix(row,n);
       double[][] C = X.getArray();
-      for (int i = 0; i < m; i++) {
+      for (int i = 0; i < row; i++) {
          for (int j = 0; j < n; j++) {
             C[i][j] = B.A[i][j] / A[i][j];
          }
@@ -727,7 +719,7 @@ public class Matrix implements Cloneable, XMLSerializable, Serializable
 
    public Matrix arrayLeftDivideEquals (Matrix B) {
       checkMatrixDimensions(B);
-      for (int i = 0; i < m; i++) {
+      for (int i = 0; i < row; i++) {
          for (int j = 0; j < n; j++) {
             A[i][j] = B.A[i][j] / A[i][j];
          }
@@ -741,9 +733,9 @@ public class Matrix implements Cloneable, XMLSerializable, Serializable
    */
 
    public Matrix times (double s) {
-      Matrix X = new Matrix(m,n);
+      Matrix X = new Matrix(row,n);
       double[][] C = X.getArray();
-      for (int i = 0; i < m; i++) {
+      for (int i = 0; i < row; i++) {
          for (int j = 0; j < n; j++) {
             C[i][j] = s*A[i][j];
          }
@@ -757,7 +749,7 @@ public class Matrix implements Cloneable, XMLSerializable, Serializable
    */
 
    public Matrix timesEquals (double s) {
-      for (int i = 0; i < m; i++) {
+      for (int i = 0; i < row; i++) {
          for (int j = 0; j < n; j++) {
             A[i][j] = s*A[i][j];
          }
@@ -772,17 +764,17 @@ public class Matrix implements Cloneable, XMLSerializable, Serializable
    */
 
    public Matrix times (Matrix B) {
-      if (B.m != n) {
+      if (B.row != n) {
          throw new IllegalArgumentException("Matrix inner dimensions must agree.");
       }
-      Matrix X = new Matrix(m,B.n);
+      Matrix X = new Matrix(row,B.n);
       double[][] C = X.getArray();
       double[] Bcolj = new double[n];
       for (int j = 0; j < B.n; j++) {
          for (int k = 0; k < n; k++) {
             Bcolj[k] = B.A[k][j];
          }
-         for (int i = 0; i < m; i++) {
+         for (int i = 0; i < row; i++) {
             double[] Arowi = A[i];
             double s = 0;
             for (int k = 0; k < n; k++) {
@@ -811,10 +803,10 @@ public class Matrix implements Cloneable, XMLSerializable, Serializable
     */
    public Matrix timesTriangular (Matrix B)
    {
-      if (B.m != n)
+      if (B.row != n)
          throw new IllegalArgumentException("Matrix inner dimensions must agree.");
 
-      Matrix X = new Matrix(m,B.n);
+      Matrix X = new Matrix(row,B.n);
       double[][] c = X.getArray();
       double[][] b;
       double s = 0;
@@ -823,7 +815,7 @@ public class Matrix implements Cloneable, XMLSerializable, Serializable
 
       b = B.getArray();
       //multiply with each row of A
-      for (int i = 0; i < m; i++)
+      for (int i = 0; i < row; i++)
       {
         Arowi = A[i];
 
@@ -893,10 +885,10 @@ public class Matrix implements Cloneable, XMLSerializable, Serializable
     */
    public Matrix pow(double exp)
    {
-       Matrix X = new Matrix(m,n);
+       Matrix X = new Matrix(row,n);
        double[][] C = X.getArray();
 
-       for (int i = 0; i < m; i++)
+       for (int i = 0; i < row; i++)
          for (int j = 0; j < n; j++)
            C[i][j] = Math.pow(A[i][j], exp);
 
@@ -1024,7 +1016,7 @@ public class Matrix implements Cloneable, XMLSerializable, Serializable
 
    public double trace () {
       double t = 0;
-      for (int i = 0; i < Math.min(m,n); i++) {
+      for (int i = 0; i < Math.min(row,n); i++) {
          t += A[i][i];
       }
       return t;
@@ -1122,7 +1114,7 @@ public class Matrix implements Cloneable, XMLSerializable, Serializable
 
    public void print (PrintWriter output, NumberFormat format, int width) {
       output.println();  // start on new line.
-      for (int i = 0; i < m; i++) {
+      for (int i = 0; i < row; i++) {
          for (int j = 0; j < n; j++) {
             String s = format.format(A[i][j]); // format the number
             int padding = Math.max(1,width-s.length()); // At _least_ 1 space
@@ -1146,10 +1138,10 @@ public class Matrix implements Cloneable, XMLSerializable, Serializable
 
        writer.writeStartElement("matrix");
 
-       writer.writeAttribute("rows", Integer.toString(m));
+       writer.writeAttribute("rows", Integer.toString(row));
        writer.writeAttribute("cols", Integer.toString(n));
 
-       for(int i = 0; i < m; i++)
+       for(int i = 0; i < row; i++)
        {
          writer.writeStartElement("matrixrow");
          for(int j = 0; j < n; j++)
@@ -1226,12 +1218,12 @@ public class Matrix implements Cloneable, XMLSerializable, Serializable
 
       checkNextTag(parser, XMLStreamReader.START_ELEMENT, "matrix");
 
-      m = Integer.parseInt(parser.getAttributeValue(null, "rows"));
+       row = Integer.parseInt(parser.getAttributeValue(null, "rows"));
       n = Integer.parseInt(parser.getAttributeValue(null, "cols"));
 
-      A = new double[m][n];
+      A = new double[row][n];
 
-      for (int i = 0; i < m; i++)
+      for (int i = 0; i < row; i++)
       {
         checkNextTag(parser, XMLStreamReader.START_ELEMENT, "matrixrow");
 
@@ -1269,7 +1261,7 @@ public class Matrix implements Cloneable, XMLSerializable, Serializable
    /** Check if size(A) == size(B) **/
 
    private void checkMatrixDimensions (Matrix B) {
-      if (B.m != m || B.n != n) {
+      if (B.row != row || B.n != n) {
          throw new IllegalArgumentException("Matrix dimensions must agree.");
       }
    }
@@ -1352,10 +1344,10 @@ public class Matrix implements Cloneable, XMLSerializable, Serializable
    {
      writer.writeStartElement("matrix");
 
-     writer.writeAttribute("rows", Integer.toString(m));
+     writer.writeAttribute("rows", Integer.toString(row));
      writer.writeAttribute("cols", Integer.toString(n));
 
-     for(int i = 0; i < m; i++)
+     for(int i = 0; i < row; i++)
      {
        writer.writeStartElement("matrixrow");
        for(int j = 0; j < n; j++)
@@ -1390,12 +1382,12 @@ public class Matrix implements Cloneable, XMLSerializable, Serializable
    {
      parser.require(XMLStreamReader.START_ELEMENT, null, "matrix");
 
-     m = Integer.parseInt(parser.getAttributeValue(null, "rows"));
+      row = Integer.parseInt(parser.getAttributeValue(null, "rows"));
      n = Integer.parseInt(parser.getAttributeValue(null, "cols"));
 
-     A = new double[m][n];
+     A = new double[row][n];
 
-     for (int i = 0; i < m; i++)
+     for (int i = 0; i < row; i++)
      {
        parser.nextTag();
        parser.require(XMLStreamReader.START_ELEMENT, null, "matrixrow");
@@ -1442,14 +1434,14 @@ public class Matrix implements Cloneable, XMLSerializable, Serializable
 		case 1:
 			result = new Matrix(1, n);
 			for (int currN = 0; currN < n; currN++) {
-				for (int currM = 0; currM < m; currM++)
+				for (int currM = 0; currM < row; currM++)
 					result.A[0][currN] += A[currM][currN];
-				result.A[0][currN] /= m;
+				result.A[0][currN] /= row;
 			}
 			return result;
 		case 2:
-			result = new Matrix(m, 1);
-			for (int currM = 0; currM < m; currM++) {
+			result = new Matrix(row, 1);
+			for (int currM = 0; currM < row; currM++) {
 				for (int currN = 0; currN < n; currN++) {
 					result.A[currM][0] += A[currM][currN];
 				}
@@ -1470,9 +1462,9 @@ public class Matrix implements Cloneable, XMLSerializable, Serializable
 	 */
 	public Matrix cov() {
 		Matrix transe = this.transpose();
-		Matrix result = new Matrix(transe.m, transe.m);
-		for(int currM = 0; currM < transe.m; currM++){
-			for(int currN = currM; currN < transe.m; currN++){
+		Matrix result = new Matrix(transe.row, transe.row);
+		for(int currM = 0; currM < transe.row; currM++){
+			for(int currN = currM; currN < transe.row; currN++){
 				double covMN = cov(transe.A[currM], transe.A[currN]);
 				result.A[currM][currN] = covMN;
 				result.A[currN][currM] = covMN;
@@ -1535,7 +1527,7 @@ public class Matrix implements Cloneable, XMLSerializable, Serializable
 	 * @return a new Matrix with all values being positive
 	 */
 	public Matrix abs() {
-		Matrix result = new Matrix(m, n); // don't use clone(), as the values are assigned in the loop.
+		Matrix result = new Matrix(row, n); // don't use clone(), as the values are assigned in the loop.
 		for(int i=0; i<result.A.length; i++){
 			for(int j=0; j<result.A[i].length; j++)
 				result.A[i][j] = Math.abs(A[i][j]);
@@ -1557,7 +1549,7 @@ public class Matrix implements Cloneable, XMLSerializable, Serializable
 		} catch (FileNotFoundException e) {
 			throw new IllegalArgumentException("there was a problem with the file "+filename);
 		}
-		for(int i = 0; i< m; i++){
+		for(int i = 0; i< row; i++){
 			for(int j = 0; j < n; j++){
 				pw.printf("%1$1.7e ", A[i][j]);
 			}

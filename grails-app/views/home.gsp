@@ -15,6 +15,7 @@
     <script src="js/recorder.js"></script>
     <script src="js/main.js"></script>
      <script src="js/jquery.js"></script>
+    <script src="js/soundmanager2.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script>
         var ownfilename="myrecording00";
@@ -22,6 +23,32 @@
             value+="_record"
             $("#fileName").val(value);
             console.log("-----------------"+$("#fileName").val())
+        }
+        soundManager.setup({
+            url: 'mediaOfSounds/',
+            flashVersion: 9, // optional: shiny features (default = 8)
+            // optional: ignore Flash where possible, use 100% HTML5 mode
+            // preferFlash: false,
+            onready: function() {
+                // Ready to use; soundManager.createSound() etc. can now be called.
+            }
+        });
+        function sendToController(value){
+            if(value){
+                var data = {
+                    fileName:value
+                }
+                $.ajax({
+                    url:'${createLink(controller: 'MFCC', action: 'index')}',
+                    type:"POST",
+                    data:data,
+                    success:function(data){
+                        if(data.messageType=="success"){
+                            alert("Successfully compared!!!!")
+                        }
+                    }
+                })
+            }
         }
     </script>
 </head>
@@ -45,10 +72,14 @@
             <table class="table table-responsive">
                 <tbody>
                 <tr>
-                    <td>Hello World</td>
-                    <td><a href="media/one.mp3">
-                       <input type="button" name="play">Play
-                    </a></td>
+                    <td>Namaste</td>
+                    <td>
+                        <a href="mediaOfSounds/one.mp3">
+                            <button type="button" class="btn btn-default btn1">
+                                <span class="glyphicon glyphicon-record "></span>  Play
+                            </button>
+                        </a>
+                    </td>
                     <td>
                         <g:link controller="MFCC" action="index" params="[name:'Hello World']">
                             <button type="button" class="btn btn-default btn1">
@@ -63,7 +94,14 @@
                     </td>
                     </tr>
                 <tr>
-                    <td>Namaste</td>
+                    <td>Dhanyabaad</td>
+                    <td>
+                        <a href="mediaOfSounds/one.mp3">
+                            <button type="button" class="btn btn-default btn1">
+                                <span class="glyphicon glyphicon-record "></span>  Play
+                            </button>
+                        </a>
+                    </td>
                     <td>
                         <g:link controller="MFCC" action="index" params="[name:'Namaste']">
                             <button type="button" class="btn btn-default btn1">

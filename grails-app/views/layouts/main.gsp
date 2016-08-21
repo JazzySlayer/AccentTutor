@@ -15,7 +15,7 @@
         <script src="${resource(dir: 'js', file: 'recorder.js')}"> </script>
   		<asset:stylesheet src="application.css"/>
 		<asset:javascript src="application.js"/>
-		<sm:inlinePlayer/>
+		<sm:pagePlayer/>
 		<g:layoutHead/>
 	</head>
 	<body>
