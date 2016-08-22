@@ -15,9 +15,8 @@
         <script src="${resource(dir: 'js', file: 'recorder.js')}"> </script>
   		<asset:stylesheet src="application.css"/>
 		<asset:javascript src="application.js"/>
-		<asset:javascript src="noty/packaged/jquery.noty.packaged.min.js"/>
 
-		<sm:pagePlayer/>
+		<sm:inlinePlayer/>
 		<g:layoutHead/>
 	</head>
 	<body>

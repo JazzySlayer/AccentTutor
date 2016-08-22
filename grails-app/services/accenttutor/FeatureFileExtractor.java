@@ -49,7 +49,7 @@ public class FeatureFileExtractor {
 	static double maxFreq = 3500;
 	//Number of mel filter banks
 	static int numberFilters = 31;
-	
+
 	
 	/**
 	 * This function computes the MFCC features of the wav file.<br>
@@ -64,11 +64,12 @@ public class FeatureFileExtractor {
 	 */
 
 
-    public static void computeFeatures(String fileName, String inputFolder, String outputFolder) throws IllegalArgumentException, IOException, UnsupportedAudioFileException {
+    public static int computeFeatures(String fileName, String inputFolder, String outputFolder) throws IllegalArgumentException, IOException, UnsupportedAudioFileException {
 
 		// read the wav file
+		Double[] saveAllDistances = new Double[4];
 		List<Float> originalList = new ArrayList<Float>();
-		String wavFile = "C:\\Java_Projects\\AccentTutor\\web-app\\mediaOfSounds\\namaste.wav";
+		String wavFile = "C:\\Java_Projects\\AccentTutor\\web-app\\mediaOfSounds\\namaste6.wav";
 		File soundfile = new File(wavFile);
 		AudioInputStream audioIn = AudioSystem.getAudioInputStream(soundfile);
 		AudioPreProcessor in = new AudioPreProcessor(audioIn, sampleRate);
@@ -98,6 +99,7 @@ public class FeatureFileExtractor {
 		String whichOne = "";
 		double answer ;
 		int file_num = 0;
+		int position = 0;
 		do {
 			answer = 0;
 			List<Float> recordedList = new ArrayList<Float>();
@@ -147,9 +149,31 @@ public class FeatureFileExtractor {
 
 			answer = dtw.getDistance();
 			System.out.println("answer = " + answer);
+			saveAllDistances[position++] = answer;
 		} while (answer > 1.5 && file_num < 4);
-
-
+		int count = 0;
+		double avg = 0;
+		boolean goLoop = true;
+		for(double item: saveAllDistances){
+			if(item<1){
+				count = 3;
+				goLoop = false;
+				break;
+			}
+			avg+=item;
+		}
+		System.out.println("avg = " + avg);
+		if(goLoop){
+			avg=avg/4;
+			for(double item: saveAllDistances){
+				if(item<avg){
+					count++;
+					if(count>3){
+						break;
+					}
+				}
+			}
+		}
 
 
 
@@ -189,7 +213,8 @@ public class FeatureFileExtractor {
 //	    if(fos!=null)
 //         fos.close();
 //	    }
-
+		System.out.println("count = " + count);
+		return count;
     }
 
 }
