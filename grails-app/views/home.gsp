@@ -44,7 +44,34 @@
                     data:data,
                     success:function(data){
                         if(data.messageType=="success"){
-                            alert("Successfully compared!!!!")
+                            var n = noty({
+                                layout: 'top',
+                                theme: 'relax',
+                                type: 'success',
+                                text: 'Match',
+                                animation: {
+                                    open: {height: 'toggle'},
+                                    close: {height: 'toggle'},
+                                    easing: 'swing', // easing
+                                    speed: 500
+                                },
+                                timeout: 1000
+                            })
+                        }
+                        else {
+                            var n = noty({
+                                layout: 'top',
+                                theme: 'relax',
+                                type: 'success',
+                                text: '${flash.message}',
+                                animation: {
+                                    open: {height: 'toggle'},
+                                    close: {height: 'toggle'},
+                                    easing: 'swing', // easing
+                                    speed: 500
+                                },
+                                timeout: 1000
+                            });
                         }
                     }
                 })
