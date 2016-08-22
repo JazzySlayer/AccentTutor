@@ -33,6 +33,21 @@
                 // Ready to use; soundManager.createSound() etc. can now be called.
             }
         });
+        function showNoty(type,message){
+            var n = noty({
+                layout: 'top',
+                theme: 'relax',
+                type: type,
+                text: message,
+                animation: {
+                    open: {height: 'toggle'},
+                    close: {height: 'toggle'},
+                    easing: 'swing', // easing
+                    speed: 500
+                },
+                timeout: 1000
+            })
+        }
         function sendToController(value){
             if(value){
                 var data = {
@@ -44,34 +59,10 @@
                     data:data,
                     success:function(data){
                         if(data.messageType=="success"){
-                            var n = noty({
-                                layout: 'top',
-                                theme: 'relax',
-                                type: 'success',
-                                text: 'Match',
-                                animation: {
-                                    open: {height: 'toggle'},
-                                    close: {height: 'toggle'},
-                                    easing: 'swing', // easing
-                                    speed: 500
-                                },
-                                timeout: 1000
-                            })
+                            showNoty('success','Pronunciation Matched')
                         }
                         else {
-                            var n = noty({
-                                layout: 'top',
-                                theme: 'relax',
-                                type: 'success',
-                                text: '${flash.message}',
-                                animation: {
-                                    open: {height: 'toggle'},
-                                    close: {height: 'toggle'},
-                                    easing: 'swing', // easing
-                                    speed: 500
-                                },
-                                timeout: 1000
-                            });
+                            showNoty('error','Pronunciation not Matched')
                         }
                     }
                 })
