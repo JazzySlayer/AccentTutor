@@ -16,7 +16,7 @@
     <script src="js/main.js"></script>
      <script src="js/jquery.js"></script>
     <script src="js/soundmanager2.js"></script>
-    %{--<asset:javascript src="noty/packaged/jquery.noty.packaged.min.js"/>--}%
+    <asset:javascript src="noty/packaged/jquery.noty.packaged.min.js"/>
     <script src="js/bootstrap.min.js"></script>
     <script>
         var ownfilename="myrecording00";
@@ -51,27 +51,29 @@
                 timeout: 1000
             })
         }
-        function sendToController(value){
-            var valueFName  = document.getElementById('fileName').value;
+        function sendToController() {
+            var valueFName = document.getElementById('fileName').value;
             console.log("Whats the problem" + valueFName);
-            if(valueFName){
-            if(value){
+            if (valueFName) {
                 var data = {
-                    fileName:valueFName
-                }
+                    fileName: valueFName
+                };
                 $.ajax({
-                    url:'${createLink(controller: 'MFCC', action: 'index')}',
-                    type:"POST",
-                    data:data,
-                    success:function(data){
-                        if(data.messageType=="success"){
-                            showNoty('success','Pronunciation Matched')
+                    url: '${createLink(controller: 'MFCCs', action: 'index')}',
+                    type: "POST",
+                    data: data,
+                    success: function (data) {
+                        if (data.messageType == "success") {
+                            showNoty('success', 'Pronunciation Matched')
                         }
                         else {
-                            showNoty('error','Pronunciation not Matched')
+                            showNoty('error', 'Pronunciation not Matched')
                         }
+                    },
+                    error: function (err) {
+                        console.log("Error")
                     }
-                })
+                });
             }
         }
     </script>
@@ -98,19 +100,19 @@
                 <tr>
                     <td>Namaste</td>
                     <td>
-                        <a href="mediaOfSounds/one.mp3">
+                        <a href="mediaOfSounds/NN4.wav">
                             <button type="button" class="btn btn-default btn1">
                                 <span class="glyphicon glyphicon-record "></span>  Play
                             </button>
                         </a>
                     </td>
                     <td>
-                            <button type="button" class="btn btn-default btn1" onclick="changeName('namaste',true);">
+                            <button type="button" class="btn btn-default btn1" onclick="changeName('NN',true);">
                                 <span class="glyphicon glyphicon-record "></span>  Features
                             </button>
                     </td>
                     <td>
-                        <button type="button" class="btn btn-default btn1" data-toggle="modal" data-target="#myModal" onclick='changeName("namaste",false);'>
+                        <button type="button" class="btn btn-default btn1" data-toggle="modal" data-target="#myModal" onclick='changeName("NN",false);'>
                             <span class="glyphicon glyphicon-record "></span>  record
                         </button>
                     </td>
@@ -118,19 +120,19 @@
                 <tr>
                     <td>Dhanyabaad</td>
                     <td>
-                        <a href="mediaOfSounds/one.mp3">
+                        <a href="mediaOfSounds/dd2.wav">
                             <button type="button" class="btn btn-default btn1">
                                 <span class="glyphicon glyphicon-record "></span>  Play
                             </button>
                         </a>
                     </td>
                     <td>
-                        <button type="button" class="btn btn-default btn1" onclick="changeName('dhanyabaad',true);">
+                        <button type="button" class="btn btn-default btn1" onclick="changeName('dd',true);">
                             <span class="glyphicon glyphicon-record "></span>  Features
                         </button>
                     </td>
                     <td>
-                        <button type="button" class="btn btn-default btn1" data-toggle="modal" data-target="#myModal" onclick='changeName("dhanyabaad",false)'>
+                        <button type="button" class="btn btn-default btn1" data-toggle="modal" data-target="#myModal" onclick='changeName("dd",false)'>
                             <span class="glyphicon glyphicon-record "></span>  record
                         </button>
                     </td>
