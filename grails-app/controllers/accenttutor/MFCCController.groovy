@@ -1,5 +1,7 @@
 package accenttutor
 
+import grails.converters.JSON
+
 class MFCCController {
 
 
@@ -16,10 +18,18 @@ class MFCCController {
 
 
         FeatureFileExtractor featureFileExtractor = new FeatureFileExtractor()
-        //featureFileExtractor.computeFeatures("namaste","/home/anons/Downloads","/home/anons/Downloads")       //tyo kA1 ko satta record
+        int result = featureFileExtractor.computeFeatures(params.fileName,"C:\\Users\\Sushant\\Downloads","C:\\Users\\Sushant\\Desktop")
 //        FeatureFileExtractor featureFileExtractor1 = new FeatureFileExtractor()
 //        featureFileExtractor1.computeFeatures("myRecording01","C:\\Users\\Sushant\\Downloads","C:\\Users\\Sushant\\Downloads")
+        //featureFileExtractor.computeFeatures("namaste","/home/anons/Downloads","/home/anons/Downloads")       //tyo kA1 ko satta record
 
-        render(view: '../home')
+        println result
+        if(result>2){
+            println "enteres!!!!!!!!!!" + result
+            return render([messageType:"success"] as JSON)
+        }
+        else{
+            return render([messageType:"error"] as JSON)
+        }
     }
 }

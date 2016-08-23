@@ -16,12 +16,15 @@
     <script src="js/main.js"></script>
      <script src="js/jquery.js"></script>
     <script src="js/soundmanager2.js"></script>
+    %{--<asset:javascript src="noty/packaged/jquery.noty.packaged.min.js"/>--}%
     <script src="js/bootstrap.min.js"></script>
     <script>
         var ownfilename="myrecording00";
-        function changeName(value){
-            value+="_record"
+        function changeName(value,goEnable){
             $("#fileName").val(value);
+            if(goEnable){
+                sendToController();
+            }
             console.log("-----------------"+$("#fileName").val())
         }
         soundManager.setup({
@@ -33,7 +36,7 @@
                 // Ready to use; soundManager.createSound() etc. can now be called.
             }
         });
-        function showNoty(type,message){
+       function showNoty(type,message){
             var n = noty({
                 layout: 'top',
                 theme: 'relax',
@@ -49,9 +52,12 @@
             })
         }
         function sendToController(value){
+            var valueFName  = document.getElementById('fileName').value;
+            console.log("Whats the problem" + valueFName);
+            if(valueFName){
             if(value){
                 var data = {
-                    fileName:value
+                    fileName:valueFName
                 }
                 $.ajax({
                     url:'${createLink(controller: 'MFCC', action: 'index')}',
@@ -82,7 +88,7 @@
         <div class="col-md-12">
         </div>
     </div>
-    <input type="hidden" id="fileName">
+    <input type="hidden" id="fileName" value="">
     <div class="row">
         <div class="col-md-2">
         </div>
@@ -99,14 +105,12 @@
                         </a>
                     </td>
                     <td>
-                        <g:link controller="MFCC" action="index" params="[name:'Hello World']">
-                            <button type="button" class="btn btn-default btn1">
+                            <button type="button" class="btn btn-default btn1" onclick="changeName('namaste',true);">
                                 <span class="glyphicon glyphicon-record "></span>  Features
                             </button>
-                        </g:link>
                     </td>
                     <td>
-                        <button type="button" class="btn btn-default btn1" data-toggle="modal" data-target="#myModal" onclick='changeName("Hello World");'>
+                        <button type="button" class="btn btn-default btn1" data-toggle="modal" data-target="#myModal" onclick='changeName("namaste",false);'>
                             <span class="glyphicon glyphicon-record "></span>  record
                         </button>
                     </td>
@@ -121,14 +125,12 @@
                         </a>
                     </td>
                     <td>
-                        <g:link controller="MFCC" action="index" params="[name:'Namaste']">
-                            <button type="button" class="btn btn-default btn1">
-                                <span class="glyphicon glyphicon-record "></span>  Features
-                            </button>
-                        </g:link>
+                        <button type="button" class="btn btn-default btn1" onclick="changeName('dhanyabaad',true);">
+                            <span class="glyphicon glyphicon-record "></span>  Features
+                        </button>
                     </td>
                     <td>
-                        <button type="button" class="btn btn-default btn1" data-toggle="modal" data-target="#myModal" onclick='changeName("Namaste")'>
+                        <button type="button" class="btn btn-default btn1" data-toggle="modal" data-target="#myModal" onclick='changeName("dhanyabaad",false)'>
                             <span class="glyphicon glyphicon-record "></span>  record
                         </button>
                     </td>
