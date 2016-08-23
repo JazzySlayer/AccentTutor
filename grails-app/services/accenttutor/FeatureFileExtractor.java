@@ -67,9 +67,10 @@ public class FeatureFileExtractor {
     public static int computeFeatures(String fileName, String inputFolder, String outputFolder) throws IllegalArgumentException, IOException, UnsupportedAudioFileException {
 
 		// read the wav file
+		System.out.println("enter");
 		Double[] saveAllDistances = new Double[4];
 		List<Float> originalList = new ArrayList<Float>();
-		String wavFile = "C:\\Java_Projects\\AccentTutor\\web-app\\mediaOfSounds\\namaste6.wav";
+		String wavFile = "/home/anons/Documents/BSCCSIT/AccentTutor/web-app/mediaOfSounds/"+fileName+".wav";
 		File soundfile = new File(wavFile);
 		AudioInputStream audioIn = AudioSystem.getAudioInputStream(soundfile);
 		AudioPreProcessor in = new AudioPreProcessor(audioIn, sampleRate);
@@ -104,7 +105,7 @@ public class FeatureFileExtractor {
 			answer = 0;
 			List<Float> recordedList = new ArrayList<Float>();
 			file_num++;
-			wavFile = "C:\\Java_Projects\\AccentTutor\\web-app\\mediaOfSounds\\namaste"+file_num+".wav";
+			wavFile = "/home/anons/Documents/BSCCSIT/AccentTutor/web-app/mediaOfSounds/NN"+file_num+".wav";
 			soundfile = new File(wavFile);
 			audioIn = AudioSystem.getAudioInputStream(soundfile);
 			in = new AudioPreProcessor(audioIn, sampleRate);
@@ -150,7 +151,7 @@ public class FeatureFileExtractor {
 			answer = dtw.getDistance();
 			System.out.println("answer = " + answer);
 			saveAllDistances[position++] = answer;
-		} while (answer > 1.5 && file_num < 4);
+		} while (answer > 1 && file_num < 4);
 		int count = 0;
 		double avg = 0;
 		boolean goLoop = true;
