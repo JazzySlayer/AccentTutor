@@ -19,12 +19,14 @@
     <asset:javascript src="noty/packaged/jquery.noty.packaged.min.js"/>
     <script src="js/bootstrap.min.js"></script>
     <script>
-        var ownfilename="myrecording00";
-        function changeName(value,goEnable){
-            $("#fileName").val(value);
-            if(goEnable){
-                sendToController();
-            }
+        $(document).ready(function(){
+            $("#editModal").modal("hide");
+            $("#compareModal").modal("hide");
+        });
+
+//        var ownfilename="myrecording00";
+        function showCompareModal(){
+            $("#compareModal").modal("show");
             console.log("-----------------"+$("#fileName").val())
         }
         soundManager.setup({
@@ -51,31 +53,7 @@
                 timeout: 1000
             })
         }
-        function sendToController() {
-            var valueFName = document.getElementById('fileName').value;
-            console.log("Whats the problem" + valueFName);
-            if (valueFName) {
-                var data = {
-                    fileName: valueFName
-                };
-                $.ajax({
-                    url: '${createLink(controller: 'MFCCs', action: 'index')}',
-                    type: "POST",
-                    data: data,
-                    success: function (data) {
-                        if (data.messageType == "success") {
-                            showNoty('success', 'Pronunciation Matched')
-                        }
-                        else {
-                            showNoty('error', 'Pronunciation not Matched')
-                        }
-                    },
-                    error: function (err) {
-                        console.log("Error")
-                    }
-                });
-            }
-        }
+
     </script>
 </head>
 
@@ -85,12 +63,21 @@
 </div>
 <div class="container-fluid">
 
-
-    <div class="row">
-        <div class="col-md-12">
+    %{--<div class="row">
+        <div class="col-md-12 nav-wrapper">
+            <div id="navbar">
+                <ul class="nav navbar-nav navbar-centre">
+                    <sec:ifAllGranted roles="ROLE_ADMIN">
+                        <li><g:link controller="MFCCs" action="configure"> Setting</g:link></li>
+                    </sec:ifAllGranted>
+                    --}%%{--<li><g:loginControl /></li>--}%%{--
+                </ul>
+            </div>
         </div>
-    </div>
-    <input type="hidden" id="fileName" value="">
+    </div>--}%
+    <g:render template="configure"/>
+    <g:render template="compare"/>
+    %{--<input type="hidden" id="fileName" value="">--}%
     <div class="row">
         <div class="col-md-2">
         </div>
@@ -100,42 +87,48 @@
                 <tr>
                     <td>Namaste</td>
                     <td>
-                        <a href="mediaOfSounds/NN4.wav">
+                        <a href="mediaOfSounds/NN2.wav">
                             <button type="button" class="btn btn-default btn1">
                                 <span class="glyphicon glyphicon-record "></span>  Play
                             </button>
                         </a>
                     </td>
                     <td>
-                            <button type="button" class="btn btn-default btn1" onclick="changeName('NN',true);">
-                                <span class="glyphicon glyphicon-record "></span>  Features
-                            </button>
+                        <button type="button" class="btn btn-default btn1" onclick="showCompareModal();">
+                            <span class="glyphicon glyphicon-record "></span>  Compare
+                        </button>
                     </td>
                     <td>
                         <button type="button" class="btn btn-default btn1" data-toggle="modal" data-target="#myModal" onclick='changeName("NN",false);'>
-                            <span class="glyphicon glyphicon-record "></span>  record
+                            <span class="glyphicon glyphicon-record "></span>  Record
                         </button>
                     </td>
-                    </tr>
+                    <sec:ifAllGranted roles="ROLE_ADMIN">
+                        <td><button class="btn btn-default editbutton" onclick="EditDetails('1')" ><span class="glyphicon glyphicon-edit fa-5x"> Edit</span></button></td>
+                    </sec:ifAllGranted>
+                </tr>
                 <tr>
                     <td>Dhanyabaad</td>
                     <td>
-                        <a href="mediaOfSounds/dd2.wav">
+                        <a href="mediaOfSounds/dd3.wav">
                             <button type="button" class="btn btn-default btn1">
                                 <span class="glyphicon glyphicon-record "></span>  Play
                             </button>
                         </a>
                     </td>
                     <td>
-                        <button type="button" class="btn btn-default btn1" onclick="changeName('dd',true);">
-                            <span class="glyphicon glyphicon-record "></span>  Features
+                        <button type="button" class="btn btn-default btn1" onclick="showCompareModal();">
+                            <span class="glyphicon glyphicon-record "></span>  Compare
                         </button>
                     </td>
                     <td>
                         <button type="button" class="btn btn-default btn1" data-toggle="modal" data-target="#myModal" onclick='changeName("dd",false)'>
-                            <span class="glyphicon glyphicon-record "></span>  record
+                            <span class="glyphicon glyphicon-record "></span>  Record
                         </button>
                     </td>
+                    <sec:ifAllGranted roles="ROLE_ADMIN">
+                        <td><button class="btn btn-default editbutton" onclick="EditDetails('2')" ><span class="glyphicon glyphicon-edit fa-5x"> Edit</span></button></td>
+                    </sec:ifAllGranted>
                     </tr>
                 </tbody>
             </table>
@@ -148,6 +141,7 @@
 
 
     </div>
+
     <div class="row">
 
 
@@ -176,6 +170,8 @@
         </div>
 
     </div>
+
+
 
 </div>
 </body>

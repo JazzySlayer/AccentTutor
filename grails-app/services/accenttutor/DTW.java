@@ -20,7 +20,7 @@ public class DTW {
         n = seq1.length;
         m = seq2.length;
         K = 1;
-
+//        System.out.println(n+" "+m);
         warpingPath = new float[n + m][2];        // max(n, m) <= K < n + m
         warpingDistance = 0.0;
 
@@ -101,11 +101,6 @@ public class DTW {
         this.reversePath(warpingPath);
     }
 
-    /**
-     * Changes the order of the warping path (increasing order)
-     *
-     * @param path  the warping path in reverse order
-     */
     protected void reversePath(float[][] path) {
         float[][] newPath = new float[K][2];
         for (int i = 0; i < K; i++) {
@@ -117,34 +112,15 @@ public class DTW {
         }
         warpingPath = newPath;
     }
-    /**
-     * Returns the warping distance
-     *
-     * @return
-     */
+
     public double getDistance() {
         return warpingDistance;
     }
 
-    /**
-     * Computes a distance between two points
-     *
-     * @param p1    the point 1
-     * @param p2    the point 2
-     * @return              the distance between two points
-     */
     protected float distanceBetween(float p1, float p2) {
         return (p1 - p2) *  (p1 - p2);
     }
-    //HERE p1=(p1-p2)*(p1-p2)
-    //here p2=(p1-p2)*(p1-p2)
 
-    /**
-     * Finds the index of the minimum element from the given array
-     *
-     * @param array         the array containing numeric values
-     * @return                              the min value among elements
-     */
     protected int getIndexOfMinimum(double[] array) {
         int index = 0;
         double val = array[0];
@@ -158,9 +134,6 @@ public class DTW {
         return index;
     }
 
-    /**
-     *      Returns a string that displays the warping distance and path
-     */
     public String toString() {
         String retVal = "Warping Distance: " + warpingDistance + "\n";
         retVal += "Warping Path: {";
@@ -171,10 +144,4 @@ public class DTW {
         }
         return retVal;
     }
-
-    /**
-     * Tests this class
-     *
-     * @param args  ignored
-     */
 }

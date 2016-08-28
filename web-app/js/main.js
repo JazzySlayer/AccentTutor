@@ -53,7 +53,7 @@ function doneEncoding( blob ) {
         Recorder.setupDownload( blob, fileName + ".wav" );
     }
     else{
-        Recorder.setupDownload( blob, "ownRecording" + ((recIndex<10)?"0":"") + recIndex + ".wav" );
+        Recorder.setupDownload( blob, fileName + ".wav" );
     }
     recIndex++;
 }
