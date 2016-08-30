@@ -58,11 +58,13 @@
         }
 
     </script>
+
 </head>
 
 <body>
 <div class="jumbotron head">
     <h1 class="text-center">Accent Tutor</h1>
+    <button type="button" class="btn btn-default btn1">Logout</button>
 </div>
 <div class="container-fluid">
 
@@ -88,50 +90,67 @@
             <table class="table table-responsive">
                 <tbody>
                 <tr>
-                    <td>Namaste</td>
+                    <td><b>Namaste</b></td>
                     <td>
                         <a href="mediaOfSounds/NN2.wav">
-                            <button type="button" class="btn btn-default btn1">
+                            <button type="button" class="btn btn-default btn1 btn-danger">
                                 <span class="glyphicon glyphicon-play-circle"></span>  Play
                             </button>
                         </a>
                     </td>
                     <td>
-                        <button type="button" class="btn btn-default btn1" onclick="showCompareModal();">
+                        <button type="button" class="btn btn-default btn1 btn-primary" onclick="showCompareModal();">
                             <span class="glyphicon glyphicon-align-justify"></span>  Compare
                         </button>
                     </td>
                     <td>
-                        <button type="button" class="btn btn-default btn1" data-toggle="modal" data-target="#myModal" onclick='changeName("NN",false);'>
+                        <button type="button" class="btn btn-default btn1 btn-success" data-toggle="modal" data-target="#myModal" onclick='changeName("NN",false);'>
                             <span class="glyphicon glyphicon-record "></span>  Record
                         </button>
                     </td>
                     <sec:ifAllGranted roles="ROLE_ADMIN">
-                        <td><button type="button" class="btn btn-default btn1" onclick="EditDetails('1')" ><span class="glyphicon glyphicon-edit fa-5x"> Edit</span></button></td>
+                        <td>
+                            <button type="button" class="btn btn-default btn1 btn-warning" data-toggle="modal" onclick="EditDetails('1')"  >
+                                <span class="glyphicon glyphicon-edit"></span>  Edit
+                            </button>
+                        </td>
                     </sec:ifAllGranted>
+                    %{--<sec:ifAllGranted roles="ROLE_ADMIN">--}%
+                        %{--<td><button type="button" class="btn btn-default btn1" onclick="EditDetails('1')" ><span class="glyphicon glyphicon-edit fa-5x"> Edit</span></button></td>--}%
+                    %{--</sec:ifAllGranted>--}%
                 </tr>
                 <tr>
-                    <td>Dhanyabaad</td>
+                    <td><b>Dhanyabaad</b></td>
                     <td>
                         <a href="mediaOfSounds/dd3.wav">
-                            <button type="button" class="btn btn-default btn1">
+                            <button type="button" class="btn btn-default btn1 btn-danger">
                                 <span class="glyphicon glyphicon-play-circle"></span>  Play
                             </button>
                         </a>
                     </td>
                     <td>
-                        <button type="button" class="btn btn-default btn1" onclick="showCompareModal();">
+                        <button type="button" class="btn btn-default btn1 btn-primary" onclick="showCompareModal();">
                             <span class="glyphicon glyphicon-align-justify"></span>  Compare
                         </button>
                     </td>
                     <td>
-                        <button type="button" class="btn btn-default btn1" data-toggle="modal" data-target="#myModal" onclick='changeName("dd",false)'>
+                        <button type="button" class="btn btn-default btn1 btn-success" data-toggle="modal" data-target="#myModal" onclick='changeName("dd",false)'>
                             <span class="glyphicon glyphicon-record"></span>  Record
                         </button>
                     </td>
                     <sec:ifAllGranted roles="ROLE_ADMIN">
-                        <td><button type="button" class="btn btn-default btn1" onclick="EditDetails('2')" ><span class="glyphicon glyphicon-edit fa-5x"> Edit</span></button></td>
+                    <td>
+                        <button type="button" class="btn btn-default btn1 btn-warning" data-toggle="modal" onclick="EditDetails('2')"  >
+                            <span class="glyphicon glyphicon-edit"></span>  Edit
+                        </button>
+                    </td>
                     </sec:ifAllGranted>
+                        %{--<td>--}%
+                    %{--<sec:ifAllGranted roles="ROLE_ADMIN">--}%
+                            %{--<button type="button" class="btn btn-default btn1" onclick="EditDetails('2')" ><span class="glyphicon glyphicon-edit "> Edit</span></button>--}%
+                    %{--</sec:ifAllGranted>--}%
+                        %{--</td>--}%
+
                     </tr>
                 </tbody>
             </table>
