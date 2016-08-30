@@ -11,6 +11,9 @@
     <title></title>
     <link rel="stylesheet" href="${resource(dir: 'css', file: 'home.css')}" type="text/css">
     <link rel="stylesheet" href="${resource(dir: 'css', file: 'bootstrap.min.css')}" type="text/css">
+    <link rel="stylesheet" href="${resource(dir: 'fonts', file: 'glyphicons-halflings-regular.ttf')}" type="text/css">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
     <script src="js/audiodisplay.js"></script>
     <script src="js/recorder.js"></script>
     <script src="js/main.js"></script>
@@ -89,13 +92,13 @@
                     <td>
                         <a href="mediaOfSounds/NN2.wav">
                             <button type="button" class="btn btn-default btn1">
-                                <span class="glyphicon glyphicon-record "></span>  Play
+                                <span class="glyphicon glyphicon-play-circle"></span>  Play
                             </button>
                         </a>
                     </td>
                     <td>
                         <button type="button" class="btn btn-default btn1" onclick="showCompareModal();">
-                            <span class="glyphicon glyphicon-record "></span>  Compare
+                            <span class="glyphicon glyphicon-align-justify"></span>  Compare
                         </button>
                     </td>
                     <td>
@@ -104,7 +107,7 @@
                         </button>
                     </td>
                     <sec:ifAllGranted roles="ROLE_ADMIN">
-                        <td><button class="btn btn-default editbutton" onclick="EditDetails('1')" ><span class="glyphicon glyphicon-edit fa-5x"> Edit</span></button></td>
+                        <td><button type="button" class="btn btn-default btn1" onclick="EditDetails('1')" ><span class="glyphicon glyphicon-edit fa-5x"> Edit</span></button></td>
                     </sec:ifAllGranted>
                 </tr>
                 <tr>
@@ -112,22 +115,22 @@
                     <td>
                         <a href="mediaOfSounds/dd3.wav">
                             <button type="button" class="btn btn-default btn1">
-                                <span class="glyphicon glyphicon-record "></span>  Play
+                                <span class="glyphicon glyphicon-play-circle"></span>  Play
                             </button>
                         </a>
                     </td>
                     <td>
                         <button type="button" class="btn btn-default btn1" onclick="showCompareModal();">
-                            <span class="glyphicon glyphicon-record "></span>  Compare
+                            <span class="glyphicon glyphicon-align-justify"></span>  Compare
                         </button>
                     </td>
                     <td>
                         <button type="button" class="btn btn-default btn1" data-toggle="modal" data-target="#myModal" onclick='changeName("dd",false)'>
-                            <span class="glyphicon glyphicon-record "></span>  Record
+                            <span class="glyphicon glyphicon-record"></span>  Record
                         </button>
                     </td>
                     <sec:ifAllGranted roles="ROLE_ADMIN">
-                        <td><button class="btn btn-default editbutton" onclick="EditDetails('2')" ><span class="glyphicon glyphicon-edit fa-5x"> Edit</span></button></td>
+                        <td><button type="button" class="btn btn-default btn1" onclick="EditDetails('2')" ><span class="glyphicon glyphicon-edit fa-5x"> Edit</span></button></td>
                     </sec:ifAllGranted>
                     </tr>
                 </tbody>
