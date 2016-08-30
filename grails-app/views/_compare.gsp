@@ -10,12 +10,17 @@
 <head>
     <style>
         .modal-content{
-            margin-top: 190px;
+            margin-top: 150px;
+
         }
         .modal-header{
             background-color:#286090! important;
             color: #f6f1ed! important;
         }
+        .modal-dialog{
+            width: 30%;
+        }
+
     </style>
     <title></title>
     <script>
@@ -57,9 +62,10 @@
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 <h4 class="modal-title text-center">Configure</h4>
             </div>
-            <div class="modal-body">
-                <fieldset class="form">
-                    <div class="form-group required">
+            <div class="modal-body ">
+
+                <fieldset class="form" >
+                    <div class="form-group required" >
                         <label for="fileName">File Name
                             <span class="required-indicator">*</span>
                         </label>
