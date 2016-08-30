@@ -58,13 +58,18 @@
         }
 
     </script>
+    <style>
+        .logout{
+            margin-left: 1265px;
+        }
+    </style>
 
 </head>
 
 <body>
 <div class="jumbotron head">
     <h1 class="text-center">Accent Tutor</h1>
-    <button type="button" class="btn btn-default btn1">Logout</button>
+    <button type="button" class="btn btn-default logout">Logout</button>
 </div>
 <div class="container-fluid">
 
