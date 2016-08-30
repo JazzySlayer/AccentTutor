@@ -8,6 +8,15 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
+    <style>
+        .modal-content{
+            margin-top: 190px;
+        }
+        .modal-header{
+            background-color:#286090! important;
+            color: #f6f1ed! important;
+        }
+    </style>
     <title></title>
     <script>
         function sendToController() {
