@@ -69,7 +69,13 @@
 <body>
 <div class="jumbotron head">
     <h1 class="text-center">Accent Tutor</h1>
-    <button type="button" class="btn btn-default logout">Logout</button>
+    <g:if test="${sec.loggedInUserInfo(field: 'username')}">
+        <g:link controller="logout" action="index"><button type="button" class="btn btn-default logout"> Logout</button></g:link>
+    </g:if>
+    <g:else>
+        %{--<button type="button" class="btn btn-default logout"><g:link controller="login" action="index"> Login</g:link></button>--}%
+        <g:link controller="login" action="index"><button type="button" class="btn btn-default logout"> Login</button></g:link>
+    </g:else>
 </div>
 <div class="container-fluid">
 
