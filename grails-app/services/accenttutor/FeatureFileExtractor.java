@@ -56,21 +56,19 @@ public class FeatureFileExtractor {
 	 * It takes the file name, input folder and the output folder as parameters
 	 * and stores the mfc files in the output folder with extension .mfc
 	 * @param fileName : name of the wav file to be processed
-	 * @param inputFolder : folder in which the wav files are stored
-	 * @param outputFolder : folder in which the mfc files will be stored
 	 * @throws IllegalArgumentException
 	 * @throws IOException
 	 * @throws UnsupportedAudioFileException
 	 */
 
 
-    public static int computeFeatures(String fileName, String inputFolder, String outputFolder) throws IllegalArgumentException, IOException, UnsupportedAudioFileException {
+    public static int computeFeatures(String fileName) throws IllegalArgumentException, IOException, UnsupportedAudioFileException {
 
 		// read the wav file
 		System.out.println("enter");
 		Double[] saveAllDistances = new Double[4];
 		List<Float> originalList = new ArrayList<Float>();
-		String wavFile = "/home/anons/Documents/BSCCSIT/AccentTutor/web-app/mediaOfSounds/"+fileName+".wav";
+		String wavFile = /*"/home/anons/Documents/BSCCSIT/AccentTutor/web-app/mediaOfSounds/"+*/fileName;
 		File soundfile = new File(wavFile);
 		AudioInputStream audioIn = AudioSystem.getAudioInputStream(soundfile);
 		AudioPreProcessor in = new AudioPreProcessor(audioIn, sampleRate);
@@ -105,7 +103,7 @@ public class FeatureFileExtractor {
 			answer = 0;
 			List<Float> recordedList = new ArrayList<Float>();
 			file_num++;
-			wavFile = "/home/anons/Documents/BSCCSIT/AccentTutor/web-app/mediaOfSounds/NN"+file_num+".wav";
+			wavFile = "/home/anons/Documents/BSCCSIT/AccentTutor/web-app/mediaOfSounds/NN"/*+fileName.replace(".wav","")*/+file_num+".wav";
 			soundfile = new File(wavFile);
 			audioIn = AudioSystem.getAudioInputStream(soundfile);
 			in = new AudioPreProcessor(audioIn, sampleRate);

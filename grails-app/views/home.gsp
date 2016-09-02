@@ -41,7 +41,53 @@
                 // Ready to use; soundManager.createSound() etc. can now be called.
             }
         });
-       function showNoty(type,message){
+
+        function sendToController() {
+//            var valueFName = document.getElementById('fileName').value.replace("C:\\fakepath\\","");
+            var fd = new FormData();
+            fd.append('valueFName',$('#fileName')[0].files[0]);
+//            var valueFName = new FormData($("#fileName")[0].files[0]);
+            console.log("Whats the problem" + fd);
+
+            if (fd) {
+//                var data = {
+//                 fileName: fd
+//                 };
+                $.ajax({
+                    url: '${createLink(controller: 'MFCCs', action: 'index')}',
+                    type: "POST",
+                    data: fd,
+                    contentType: false,
+                    processData: false,
+                    success: function (data) {
+                        console.log("sucess");
+                        $("#compareModal").modal("hide");
+                        if (data.messageType == "success") {
+                            showNoty('success', 'Pronunciation Matched')
+                        }
+                        else {
+                            showNoty('error', 'Pronunciation not Matched')
+                        }
+                    },
+                    error: function (err) {
+                        console.log("Error")
+                    }
+                });
+            }
+        }
+
+/*
+        %{--<g:if test="${flash.message}">
+            console.log("here");
+            showNoty('success', 'Pronunciation Matched');
+        </g:if>
+        <g:if test="${flash.error}">
+            console.log("not here");
+            showNoty('error', 'Pronunciation not Matched');
+        </g:if>--}%
+*/
+
+        function showNoty(type,message){
             var n = noty({
                 layout: 'top',
                 theme: 'relax',
@@ -53,10 +99,9 @@
                     easing: 'swing', // easing
                     speed: 500
                 },
-                timeout: 1000
+                timeout: 4000
             })
         }
-
     </script>
     <style>
         .logout{

@@ -3,6 +3,10 @@ package accenttutor
 import com.accenttutor.Configuration
 import grails.converters.JSON
 import grails.plugin.springsecurity.annotation.Secured
+import org.apache.commons.fileupload.FileItem
+import org.apache.commons.fileupload.disk.DiskFileItem
+import org.springframework.web.multipart.MultipartHttpServletRequest
+import org.springframework.web.multipart.commons.CommonsMultipartFile
 
 class MFCCsController {
 
@@ -18,13 +22,15 @@ class MFCCsController {
 //            println "not"
 //        }ef data = request.getFile('recordedFile')
 
-
+        FileItem fileItem = params.valueFName.getFileItem();
+        DiskFileItem diskFileItem = (DiskFileItem) fileItem;
+        String absPath = diskFileItem.getStoreLocation().getAbsolutePath();
+        println absPath
         FeatureFileExtractor featureFileExtractor = new FeatureFileExtractor()
 //        int result = featureFileExtractor.computeFeatures(params.fileName,"C:\\Users\\Sushant\\Downloads","C:\\Users\\Sushant\\Desktop")
 //        FeatureFileExtractor featureFileExtractor1 = new FeatureFileExtractor()
 //        featureFileExtractor1.computeFeatures("myRecording01","C:\\Users\\Sushant\\Downloads","C:\\Users\\Sushant\\Downloads")
-        int result = featureFileExtractor.computeFeatures(params.fileName,"/home/anons/Downloads","/home/anons/Downloads")       //tyo kA1 ko satta record
-
+        int result = featureFileExtractor.computeFeatures(absPath)       //tyo kA1 ko satta record
         if(result>2){
             return render([messageType:"success"] as JSON)
         }
