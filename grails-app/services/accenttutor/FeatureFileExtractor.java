@@ -160,10 +160,11 @@ public class FeatureFileExtractor {
 				break;
 			}
 			avg+=item;
-		}
-		System.out.println("avg = " + avg);
+            System.out.println("avg....");
+        }
 		if(goLoop){
 			avg=avg/4;
+			System.out.println("avg = " + avg);
 			for(double item: saveAllDistances){
 				if(item<avg){
 					count++;

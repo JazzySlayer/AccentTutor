@@ -5,6 +5,7 @@ import grails.converters.JSON
 import grails.plugin.springsecurity.annotation.Secured
 import org.apache.commons.fileupload.FileItem
 import org.apache.commons.fileupload.disk.DiskFileItem
+import org.codehaus.groovy.grails.web.context.ServletContextHolder
 import org.springframework.web.multipart.MultipartHttpServletRequest
 import org.springframework.web.multipart.commons.CommonsMultipartFile
 
@@ -22,9 +23,9 @@ class MFCCsController {
 //            println "not"
 //        }ef data = request.getFile('recordedFile')
 
-        FileItem fileItem = params.valueFName.getFileItem();
-        DiskFileItem diskFileItem = (DiskFileItem) fileItem;
-        String absPath = diskFileItem.getStoreLocation().getAbsolutePath();
+        FileItem fileItem = params.valueFName.getFileItem()
+        DiskFileItem diskFileItem = (DiskFileItem) fileItem
+        String absPath = diskFileItem.getStoreLocation().getAbsolutePath()
         println absPath
         FeatureFileExtractor featureFileExtractor = new FeatureFileExtractor()
 //        int result = featureFileExtractor.computeFeatures(params.fileName,"C:\\Users\\Sushant\\Downloads","C:\\Users\\Sushant\\Desktop")
@@ -53,6 +54,52 @@ class MFCCsController {
     @Secured(['ROLE_ADMIN'])
     def saveConfigure(){
         println params.templateName
+        /*println params.templateName1
+        println params.templateName2
+        println params.templateName3
         println params.standardPronunciation
+
+        def configuration = new Configuration()
+        configuration.templateName=""
+        configuration.standardPronunciation=""
+
+        FileItem fileItem = params.templateName.getFileItem()
+        DiskFileItem diskFileItem = (DiskFileItem) fileItem
+        String absPath = diskFileItem.getStoreLocation().getAbsolutePath()
+        println absPath
+
+        fileItem = params.standardPronunciation.getFileItem()
+        diskFileItem = (DiskFileItem) fileItem
+        absPath = diskFileItem.getStoreLocation().getAbsolutePath()
+        println absPath
+
+        fileItem = params.templateName1.getFileItem()
+        diskFileItem = (DiskFileItem) fileItem
+        absPath = diskFileItem.getStoreLocation().getAbsolutePath()
+        println absPath
+
+        fileItem = params.templateName2.getFileItem()
+        diskFileItem = (DiskFileItem) fileItem
+        absPath = diskFileItem.getStoreLocation().getAbsolutePath()
+        println absPath
+
+        fileItem = params.templateName3.getFileItem()
+        diskFileItem = (DiskFileItem) fileItem
+        absPath = diskFileItem.getStoreLocation().getAbsolutePath()
+        println absPath*/
+        /*def servletContext = ServletContextHolder.servletContext
+        def storagePath = servletContext.getRealPath("templates")
+        def name = params.templateName.getOriginalFilename();
+
+        def storagePathDirectory = new File(storagePath)
+        if (!storagePathDirectory.exists()) {
+            storagePathDirectory.mkdirs()
+        }
+        println storagePath
+
+        params.templateName.transferTO(new File(storagePath+"/"+name))*/
+
+        return render([messageType:"success"] as JSON)
+
     }
 }

@@ -122,6 +122,8 @@ grails.plugin.springsecurity.userLookup.authorityJoinClassName = 'com.accenttuto
 grails.plugin.springsecurity.authority.className = 'com.accenttutor.Role'
 grails.plugin.springsecurity.successHandler.alwaysUseDefault = true
 grails.plugin.springsecurity.successHandler.defaultTargetUrl = '/'
+grails.plugin.springsecurity.logout.postOnly = false
+grails.plugin.springsecurity.logout.afterLogoutUrl = '/'
 grails.plugin.springsecurity.controllerAnnotations.staticRules = [
 	'/':                ['permitAll'],
 	'/index':           ['permitAll'],

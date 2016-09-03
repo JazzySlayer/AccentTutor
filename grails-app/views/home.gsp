@@ -43,36 +43,94 @@
         });
 
         function sendToController() {
-//            var valueFName = document.getElementById('fileName').value.replace("C:\\fakepath\\","");
-            var fd = new FormData();
-            fd.append('valueFName',$('#fileName')[0].files[0]);
+            var valueFName = document.getElementById('fileName').value;
+            console.log(valueFName);
+            var test = valueFName.split(".");
+            console.log(test[test.length-1]);
+            if(test[test.length-1]!="wav"){
+                alert("Sound file must be .wav format.");
+            }
+            else {
+                var fd = new FormData();
+                fd.append('valueFName',$('#fileName')[0].files[0]);
 //            var valueFName = new FormData($("#fileName")[0].files[0]);
-            console.log("Whats the problem" + fd);
+                console.log("Whats the problem" + fd);
 
-            if (fd) {
+                if (valueFName) {
 //                var data = {
 //                 fileName: fd
 //                 };
-                $.ajax({
-                    url: '${createLink(controller: 'MFCCs', action: 'index')}',
-                    type: "POST",
-                    data: fd,
-                    contentType: false,
-                    processData: false,
-                    success: function (data) {
-                        console.log("sucess");
-                        $("#compareModal").modal("hide");
-                        if (data.messageType == "success") {
-                            showNoty('success', 'Pronunciation Matched')
+                    $.ajax({
+                        url: '${createLink(controller: 'MFCCs', action: 'index')}',
+                        type: "POST",
+                        data: fd,
+                        contentType: false,
+                        processData: false,
+                        success: function (data) {
+                            console.log("sucess");
+                            $("#compareModal").modal("hide");
+                            if (data.messageType == "success") {
+                                showNoty('success', 'Pronunciation Matched')
+                            }
+                            else {
+                                showNoty('error', 'Pronunciation not Matched')
+                            }
+                        },
+                        error: function (err) {
+                            console.log("Error")
                         }
-                        else {
-                            showNoty('error', 'Pronunciation not Matched')
+                    });
+                }
+            }
+
+        }
+
+        function sendToController1() {
+            var templateName = document.getElementById('templateName').value;
+            var standardPronunciation = document.getElementById('standardPronunciation').value;
+
+            var test = templateName.split(".");
+            var test1 = standardPronunciation.split(".");
+
+            if((test[test.length-1]!="wav")||(test1[test1.length-1]!="wav")){
+                alert("Sound file must be .wav format.");
+            }
+            else{
+                var fd = new FormData();
+                fd.append('templateName',$('#templateName')[0].files[0]);
+                /*            fd.append('templateName1',$('#templateName')[0].files[1]);
+                 fd.append('templateName2',$('#templateName')[0].files[2]);
+                 fd.append('templateName3',$('#templateName')[0].files[3]);*/
+                fd.append('standardPronunciation',$('#standardPronunciation')[0].files[0]);
+//            var valueFName = new FormData($("#fileName")[0].files[0]);
+                console.log("Whats the problem" + fd);
+
+
+                if (templateName&&standardPronunciation) {
+//                var data = {
+//                 fileName: fd
+//                 };
+                    $.ajax({
+                        url: '${createLink(controller: 'MFCCs', action: 'saveConfigure')}',
+                        type: "POST",
+                        data: fd,
+                        contentType: false,
+                        processData: false,
+                        success: function (data) {
+                            console.log("sucess");
+                            $("#editModal").modal("hide");
+                            if (data.messageType == "success") {
+                                showNoty('success', 'Configuration Saved')
+                            }
+                            else {
+                                showNoty('error', 'Error in Saving Configuration')
+                            }
+                        },
+                        error: function (err) {
+                            console.log("Error")
                         }
-                    },
-                    error: function (err) {
-                        console.log("Error")
-                    }
-                });
+                    });
+                }
             }
         }
 
@@ -114,13 +172,15 @@
 <body>
 <div class="jumbotron head">
     <h1 class="text-center">Accent Tutor</h1>
-    <g:if test="${sec.loggedInUserInfo(field: 'username')}">
-        <g:link controller="logout" action="index"><button type="button" class="btn btn-default logout"> Logout</button></g:link>
-    </g:if>
-    <g:else>
-        %{--<button type="button" class="btn btn-default logout"><g:link controller="login" action="index"> Login</g:link></button>--}%
-        <g:link controller="login" action="index"><button type="button" class="btn btn-default logout"> Login</button></g:link>
-    </g:else>
+    <sec:ifAllGranted roles="ROLE_ADMIN">
+        <g:if test="${sec.loggedInUserInfo(field: 'username')}">
+            <g:link controller="logout" action="index"><button type="button" class="btn btn-default logout"> Logout</button></g:link>
+        </g:if>
+        <g:else>
+            <button type="button" class="btn btn-default logout"><g:link controller="login" action="index"> Login</g:link></button>
+            <g:link controller="login" action="index"><button type="button" class="btn btn-default logout"> Login</button></g:link>
+        </g:else>
+    </sec:ifAllGranted>
 </div>
 <div class="container-fluid">
 

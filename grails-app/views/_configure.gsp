@@ -43,13 +43,14 @@
                 <h4 class="modal-title text-center">Configure</h4>
             </div>
             <div class="modal-body">
-                <g:form url="[controller: 'MFCCs',action:'saveConfigure']" enctype="multipart/form-data" >
+                <form enctype="multipart/form-data" id="selectFile" role="form" onsubmit="return false;">
                     <fieldset class="form">
                         <div class="form-group required">
                             <label for="templateName">Template File
                                 <span class="required-indicator">*</span>
                             </label>
-                            <input type="file" name="templateName" id="templateName" required>
+                            %{--<input type="file" name="templateName[]" id="templateName" multiple="" required>--}%
+                            <input type="file" name="templateName" id="templateName" multiple="" required>
                         </div>
                         <div class="form-group required">
                             <label for="standardPronunciation">Standard Pronunciation File
@@ -58,8 +59,8 @@
                             <input type="file" name="standardPronunciation" id="standardPronunciation" required>
                         </div>
                     </fieldset>
-                    <button type="submit" class="btn btn-primary">Configure</button>
-                </g:form>
+                    <button type="submit" class="btn btn-primary" onclick="sendToController1()">Configure</button>
+                </form>
             </div>
             <div id="addWord"></div>
         </div>
