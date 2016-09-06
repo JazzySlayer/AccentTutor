@@ -207,7 +207,6 @@ public class FeatureFileExtractor {
 				}
 			}
 		}*/
-		System.out.println("Match = " + match);
 		return resultLists;
     }
 

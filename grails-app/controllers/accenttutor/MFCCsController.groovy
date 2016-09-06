@@ -72,13 +72,8 @@ class MFCCsController {
         if (configuration == null){
             configuration = new Configuration()
             configuration.id=params.wordId
-            println "null"
-        }
-        else{
-            println configuration
         }
 
-//        println configuration.id
         render ([configuration:configuration] as JSON)
     }
 
