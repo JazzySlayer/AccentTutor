@@ -277,7 +277,7 @@
         </g:if>
         <g:else>
             <button type="button" class="btn btn-default logout"><g:link controller="login" action="index"> Login</g:link></button>
-            <g:link controller="login" action="index"><button type="button" class="btn btn-default logout"> Login</button></g:link>
+            <g:link controller="login"  action="index"><button type="button" class="btn btn-default logout"> Login</button></g:link>
         </g:else>
     </sec:ifAllGranted>
 </div>
