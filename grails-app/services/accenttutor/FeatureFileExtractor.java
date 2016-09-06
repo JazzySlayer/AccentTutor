@@ -67,7 +67,7 @@ public class FeatureFileExtractor {
     public static List<Double> computeFeatures(String fileName, Configuration conf) throws IllegalArgumentException, IOException, UnsupportedAudioFileException {
 
 		// read the wav file
-		List<Double> resultLists = new ArrayList<>();
+		List<Double> resultLists = new ArrayList<Double>();
 		Double[] saveAllDistances = new Double[4];
 		List<Float> originalList = new ArrayList<Float>();
 		String wavFile = /*"/home/anons/Documents/BSCCSIT/AccentTutor/web-app/mediaOfSounds/"+*/fileName;
@@ -150,7 +150,7 @@ public class FeatureFileExtractor {
 			answer = dtw.getDistance();
 			System.out.println("answer = " + answer);
 			saveAllDistances[position++] = answer;
-		} while (answer > 1 && file_num < 4);
+		} while (answer > 0 && file_num < 4);
 		int count = 0;
 		double tot = 0;
 		double avg = 0;
@@ -208,7 +208,6 @@ public class FeatureFileExtractor {
 				}
 			}
 		}*/
-		System.out.println("Match = " + match);
 		return resultLists;
     }
 
