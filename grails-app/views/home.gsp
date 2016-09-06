@@ -8,11 +8,12 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
+
     <title></title>
     <link rel="stylesheet" href="${resource(dir: 'css', file: 'home.css')}" type="text/css">
-    <link rel="stylesheet" href="${resource(dir: 'css', file: 'bootstrap.min.css')}" type="text/css">
-    <link rel="stylesheet" href="${resource(dir: 'fonts', file: 'glyphicons-halflings-regular.ttf')}" type="text/css">
-    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="${resource(dir: 'css', file: 'bootstrap.css')}" type="text/css">
+    %{----}%
+    %{--<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">--}%
 
     <script src="js/audiodisplay.js"></script>
     <script src="js/recorder.js"></script>
@@ -260,6 +261,9 @@
         .logout{
             margin-left: 1265px;
         }
+        .result{
+            width: 50% !important;
+        }
     </style>
 
 </head>
@@ -278,6 +282,45 @@
     </sec:ifAllGranted>
 </div>
 <div class="container-fluid">
+    <!-- Modal Button-->
+    <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Modal</button>
+
+    <!-- Modal -->
+    <div id="myModal" class="modal fade" role="dialog">
+        <div class="modal-dialog result">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Modal Header</h4>
+                </div>
+                <div class="modal-body">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>Template 1</th>
+                            <th>Template 2</th>
+                            <th>Result</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>John</td>
+                            <td>Doe</td>
+                            <td>john@example.com</td>
+                        </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
 
     %{--<div class="row">
         <div class="col-md-12 nav-wrapper">
@@ -322,7 +365,7 @@
                     <sec:ifAllGranted roles="ROLE_ADMIN">
                         <td>
                             <button type="button" class="btn btn-default btn1 btn-warning" data-toggle="modal" onclick="EditDetails('1')"  >
-                                <span class="glyphicon glyphicon-edit"></span>  Edit
+                                <span class="glyphicon glyphicon-edit"></span>  Configure
                             </button>
                         </td>
                     </sec:ifAllGranted>
@@ -352,7 +395,7 @@
                     <sec:ifAllGranted roles="ROLE_ADMIN">
                     <td>
                         <button type="button" class="btn btn-default btn1 btn-warning" data-toggle="modal" onclick="EditDetails('2')"  >
-                            <span class="glyphicon glyphicon-edit"></span>  Edit
+                            <span class="glyphicon glyphicon-edit"></span>  Congifure
                         </button>
                     </td>
                     </sec:ifAllGranted>
