@@ -39,6 +39,7 @@
                             </label>
                             <input type="file" name="fileName" id="fileName" required>
                         </div>
+                        <input id="wordId" type="hidden"/>
                     </fieldset>
                     <button class="btn btn-primary" onclick="sendToController()">Compare</button>
                 </form>

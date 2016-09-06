@@ -22,7 +22,8 @@ class MFCCsController {
 //        else{
 //            println "not"
 //        }ef data = request.getFile('recordedFile')
-
+        def conf = Configuration.findById(params.wordId)
+        println params.wordId
         FileItem fileItem = params.valueFName.getFileItem()
         DiskFileItem diskFileItem = (DiskFileItem) fileItem
         String absPath = diskFileItem.getStoreLocation().getAbsolutePath()
@@ -31,13 +32,40 @@ class MFCCsController {
 //        int result = featureFileExtractor.computeFeatures(params.fileName,"C:\\Users\\Sushant\\Downloads","C:\\Users\\Sushant\\Desktop")
 //        FeatureFileExtractor featureFileExtractor1 = new FeatureFileExtractor()
 //        featureFileExtractor1.computeFeatures("myRecording01","C:\\Users\\Sushant\\Downloads","C:\\Users\\Sushant\\Downloads")
-        int result = featureFileExtractor.computeFeatures(absPath)       //tyo kA1 ko satta record
-        if(result>2){
-            return render([messageType:"success"] as JSON)
+        def result = featureFileExtractor.computeFeatures(absPath,conf)       //tyo kA1 ko satta record
+        def success = false;
+        def size = result.size()
+        if (result.get(size-1)==(1.0)){
+            success = true
+        }
+        else if (result.get(size-1)==(0.0)){
+            success = false;
+        }
+
+        if(success){
+            return render([messageType:"success",result:result] as JSON)
         }
         else{
-            return render([messageType:"error"] as JSON)
+            return render([messageType:"error",result: result] as JSON)
         }
+    }
+
+    @Secured(['permitAll'])
+    def initiate(){
+        def conf = Configuration.findById(1)
+        def conf1 = Configuration.findById(2)
+        def standPronunciation = ""
+        def standPronunciation1 = ""
+
+        if (conf==null||conf1==null){
+            return render([messageType:"fail"] as JSON)
+        }
+        else {
+            standPronunciation = conf.standardPronunciation
+            standPronunciation1 = conf1.standardPronunciation
+            return render([messageType:"success",pronun1:standPronunciation,pronun2:standPronunciation1] as JSON)
+        }
+
     }
     @Secured(['ROLE_ADMIN'])
     def configure(){
@@ -47,59 +75,52 @@ class MFCCsController {
             configuration.id=params.wordId
             println "null"
         }
+        else{
+            println configuration
+        }
+
 //        println configuration.id
         render ([configuration:configuration] as JSON)
     }
 
     @Secured(['ROLE_ADMIN'])
     def saveConfigure(){
-        println params.templateName
-        /*println params.templateName1
-        println params.templateName2
-        println params.templateName3
-        println params.standardPronunciation
-
-        def configuration = new Configuration()
-        configuration.templateName=""
-        configuration.standardPronunciation=""
-
-        FileItem fileItem = params.templateName.getFileItem()
-        DiskFileItem diskFileItem = (DiskFileItem) fileItem
-        String absPath = diskFileItem.getStoreLocation().getAbsolutePath()
-        println absPath
-
-        fileItem = params.standardPronunciation.getFileItem()
-        diskFileItem = (DiskFileItem) fileItem
-        absPath = diskFileItem.getStoreLocation().getAbsolutePath()
-        println absPath
-
-        fileItem = params.templateName1.getFileItem()
-        diskFileItem = (DiskFileItem) fileItem
-        absPath = diskFileItem.getStoreLocation().getAbsolutePath()
-        println absPath
-
-        fileItem = params.templateName2.getFileItem()
-        diskFileItem = (DiskFileItem) fileItem
-        absPath = diskFileItem.getStoreLocation().getAbsolutePath()
-        println absPath
-
-        fileItem = params.templateName3.getFileItem()
-        diskFileItem = (DiskFileItem) fileItem
-        absPath = diskFileItem.getStoreLocation().getAbsolutePath()
-        println absPath*/
-        /*def servletContext = ServletContextHolder.servletContext
-        def storagePath = servletContext.getRealPath("templates")
-        def name = params.templateName.getOriginalFilename();
-
+        def servletContext = ServletContextHolder.servletContext
+        def storagePath = servletContext.getRealPath( "templates" )
         def storagePathDirectory = new File(storagePath)
+
         if (!storagePathDirectory.exists()) {
             storagePathDirectory.mkdirs()
         }
-        println storagePath
+        Transfer(params.templateName,storagePath)
+        Transfer(params.templateName1,storagePath)
+        Transfer(params.templateName2,storagePath)
+        Transfer(params.templateName3,storagePath)
+        Transfer(params.standardPronunciation,storagePath)
 
-        params.templateName.transferTO(new File(storagePath+"/"+name))*/
+        def configuration = Configuration.findById(params.wordId)
+        if (configuration == null){
+            configuration = new Configuration()
+        }
+        def name = params.templateName.getOriginalFilename().tokenize('.').first()
+        name = name.substring(0,name.length()-1)
+        configuration.templateName = storagePath + "/" + name
+        configuration.standardPronunciation = params.standardPronunciation.getOriginalFilename()
 
-        return render([messageType:"success"] as JSON)
+        println configuration.templateName
+        println configuration.standardPronunciation
+        if (configuration.save(flush: true,failOnError: true)){
+            return render([messageType:"SaveSuccess"] as JSON)
+        }
+        else {
+            return render([messageType:"SaveError"] as JSON)
 
+        }
+
+    }
+
+    def Transfer(CommonsMultipartFile file, def storagePath){
+        def name = file.getOriginalFilename()
+        file.transferTo(new File(storagePath+"/"+name))
     }
 }

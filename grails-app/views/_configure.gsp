@@ -17,11 +17,22 @@
                 data:{wordId:id},
                 success:function (data)
                 {
-                    console.log(data);
-                    $('#templateName').val(data.configuration.templateName);
-                    $('#standardPronunciation').val(data.configuration.standardPronunciation);
                     $("#editModal").modal("show");
-
+                    var a = data.configuration.id;
+//                    alert("id="+a);
+//                    $('input:hidden#wordId').val(a);
+                    $('#wordId').val(a);
+//                    alert($("#wordId").val());
+                    if(data.configuration.templateName!=null){
+                        showWarningNoty();
+                    }
+                    else {
+                        showLongNoty('information', 'Select 4 templates and a standard pronunciation file for the selected Word. ' +
+                                'All the file must be of .wav format. Template files must have same name ' +
+                                'followed by increasing integer number as suffix which starts from 1. ' +
+                                'Example for word Namaste: First Template: Namaste1.wav, Second Template: Namaste2.wav. Third Template: ' +
+                                'Namaste3.wav and Fourth Template: Namaste4.wav');
+                    }
                 },
                 error:function (err) {
                     console.log("Error")
@@ -58,6 +69,7 @@
                             </label>
                             <input type="file" name="standardPronunciation" id="standardPronunciation" required>
                         </div>
+                        <input id="wordId" type="hidden"/>
                     </fieldset>
                     <button type="submit" class="btn btn-primary" onclick="sendToController1()">Configure</button>
                 </form>

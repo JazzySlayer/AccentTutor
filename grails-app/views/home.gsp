@@ -25,15 +25,30 @@
         $(document).ready(function(){
             $("#editModal").modal("hide");
             $("#compareModal").modal("hide");
+            getStandardPronunciation();
         });
+        function getStandardPronunciation(){
+            $.ajax({
+                url: '${createLink(controller: 'MFCCs', action: 'initiate')}',
+                type: "POST",
+                success: function (data) {
+                    console.log("sucess");
 
+                },
+                error: function (err) {
+                    console.log("Error")
+                }
+            });
+        }
 //        var ownfilename="myrecording00";
-        function showCompareModal(){
+        function showCompareModal(wordId){
             $("#compareModal").modal("show");
+            alert(wordId);
+            $('#wordId').val(wordId);
             console.log("-----------------"+$("#fileName").val())
         }
         soundManager.setup({
-            url: 'mediaOfSounds/',
+            url: 'templates/',
             flashVersion: 9, // optional: shiny features (default = 8)
             // optional: ignore Flash where possible, use 100% HTML5 mode
             // preferFlash: false,
@@ -43,8 +58,9 @@
         });
 
         function sendToController() {
-            var valueFName = document.getElementById('fileName').value;
-            console.log(valueFName);
+//            var valueFName = document.getElementById('fileName').value;
+            var valueFName = $('#fileName').val();
+                    console.log(valueFName);
             var test = valueFName.split(".");
             console.log(test[test.length-1]);
             if(test[test.length-1]!="wav"){
@@ -53,6 +69,8 @@
             else {
                 var fd = new FormData();
                 fd.append('valueFName',$('#fileName')[0].files[0]);
+                fd.append('wordId',$('#wordId').val());
+
 //            var valueFName = new FormData($("#fileName")[0].files[0]);
                 console.log("Whats the problem" + fd);
 
@@ -70,10 +88,25 @@
                             console.log("sucess");
                             $("#compareModal").modal("hide");
                             if (data.messageType == "success") {
-                                showNoty('success', 'Pronunciation Matched')
+                                showNoty('success', 'Pronunciation Matched');
+                                if(data.result.length==6){
+                                    alert(data.result[data.result.length - 2]);
+                                }
+                                if(data.result.length= 5){
+                                    alert(data.result[data.result.length - 1]);
+
+                                }
+
                             }
                             else {
-                                showNoty('error', 'Pronunciation not Matched')
+                                showNoty('error', 'Pronunciation not Matched');
+                                if(data.result.length==6){
+                                    alert(data.result[data.result.length - 2]);
+                                }
+                                if(data.result.length= 5){
+                                    alert(data.result[data.result.length - 1]);
+
+                                }
                             }
                         },
                         error: function (err) {
@@ -86,51 +119,61 @@
         }
 
         function sendToController1() {
-            var templateName = document.getElementById('templateName').value;
+            var templateName = document.getElementById('templateName');
             var standardPronunciation = document.getElementById('standardPronunciation').value;
+//            alert($('#wordId').val());
+            if(templateName&&standardPronunciation){
+                var files = templateName.files;
 
-            var test = templateName.split(".");
-            var test1 = standardPronunciation.split(".");
-
-            if((test[test.length-1]!="wav")||(test1[test1.length-1]!="wav")){
-                alert("Sound file must be .wav format.");
-            }
-            else{
-                var fd = new FormData();
-                fd.append('templateName',$('#templateName')[0].files[0]);
-                /*            fd.append('templateName1',$('#templateName')[0].files[1]);
-                 fd.append('templateName2',$('#templateName')[0].files[2]);
-                 fd.append('templateName3',$('#templateName')[0].files[3]);*/
-                fd.append('standardPronunciation',$('#standardPronunciation')[0].files[0]);
-//            var valueFName = new FormData($("#fileName")[0].files[0]);
-                console.log("Whats the problem" + fd);
-
-
-                if (templateName&&standardPronunciation) {
-//                var data = {
-//                 fileName: fd
-//                 };
-                    $.ajax({
-                        url: '${createLink(controller: 'MFCCs', action: 'saveConfigure')}',
-                        type: "POST",
-                        data: fd,
-                        contentType: false,
-                        processData: false,
-                        success: function (data) {
-                            console.log("sucess");
-                            $("#editModal").modal("hide");
-                            if (data.messageType == "success") {
-                                showNoty('success', 'Configuration Saved')
-                            }
-                            else {
-                                showNoty('error', 'Error in Saving Configuration')
-                            }
-                        },
-                        error: function (err) {
-                            console.log("Error")
-                        }
-                    });
+                if(files.length!=4){
+                    showNoty('error', 'Please select 4 pronunciation template.');
                 }
+                else{
+                    var proceed = true;
+                    for(var i=0;i<4;i++){
+                        var name = files[i].name.split(".");
+                        if(name[name.length-1] != "wav"){
+                            showNoty('error', 'Sound file must be .wav format.');
+                            proceed = false;
+                            break;
+                        }
+                    }
+                    var test = standardPronunciation.split(".");
+                    if((test[test.length-1]!="wav")){
+                        showNoty('error', 'Sound file must be .wav format.');
+                        proceed = false;
+                    }
+                    if(proceed){
+                        var fd = new FormData();
+                        fd.append('templateName',$('#templateName')[0].files[0]);
+                        fd.append('templateName1',$('#templateName')[0].files[1]);
+                        fd.append('templateName2',$('#templateName')[0].files[2]);
+                        fd.append('templateName3',$('#templateName')[0].files[3]);
+                        fd.append('standardPronunciation',$('#standardPronunciation')[0].files[0]);
+                        fd.append('wordId',$('#wordId').val());
+
+                        $.ajax({
+                            url: '${createLink(controller: 'MFCCs', action: 'saveConfigure')}',
+                            type: "POST",
+                            data: fd,
+                            contentType: false,
+                            processData: false,
+                            success: function (data) {
+                                if (data.messageType == "SaveSuccess") {
+                                    $("#editModal").modal("hide");
+                                    showNoty('success', 'Configuration Saved')
+                                }
+                                else {
+                                    showNoty('error', 'Error in Saving Configuration')
+                                }
+                            },
+                            error: function (err) {
+                                showNoty('error', 'Error in Saving Configuration')                            }
+                        });
+
+                    }
+                }
+
             }
         }
 
@@ -160,6 +203,58 @@
                 timeout: 4000
             })
         }
+        function showLongNoty(type,message){
+            var n = noty({
+                layout: 'topCenter',
+                theme: 'relax',
+                type: type,
+                text: message,
+                animation: {
+                    open: {height: 'toggle'},
+                    close: {height: 'toggle'},
+                    easing: 'swing', // easing
+                    speed: 500
+                },
+                timeout: 30000
+            })
+        }
+        function showWarningNoty() {
+            $('#editModal').addClass("inactiveLink");
+            var n =noty({
+                layout: 'topCenter',
+                theme: 'relax',
+                text: "Template and standard pronunciation for the selected word is already configured. " +
+                "If you want to change it then click \'Ok\' else click \'Cancel\'",
+                animation: {
+                    open: {height: 'toggle'},
+                    close: {height: 'toggle'},
+                    easing: 'swing', // easing
+                    speed: 500
+                },
+                buttons: [
+                    {addClass: 'btn btn-primary', text: 'Ok', onClick: function($noty) {
+                        $noty.close();
+                        $('#editModal').removeClass("inactiveLink");
+                        showLongNoty('information', 'Select 4 templates and a standard pronunciation file for the selected Word. ' +
+                                'All the file must be of .wav format. Template files must have same name ' +
+                                'followed by increasing integer number as suffix which starts from 1. ' +
+                                'Example for word Namaste: First Template: Namaste1.wav, Second Template: Namaste2.wav. Third Template: ' +
+                                'Namaste3.wav and Fourth Template: Namaste4.wav')
+//                      noty({text: 'You clicked "Ok" button', type: 'success', timeout: 500});
+                    }
+                    },
+                    {addClass: 'btn btn-danger', text: 'Cancel', onClick: function($noty) {
+                        $noty.close();
+//                        $('#editModal').removeClass("inactiveLink");
+                        $("#editModal").modal("hide");
+//                        noty({text: 'You clicked "Cancel" button', type: 'error'});
+                    }
+                    }
+                ],
+                timeout: 1000
+            })
+        }
+
     </script>
     <style>
         .logout{
@@ -215,7 +310,7 @@
                         </a>
                     </td>
                     <td>
-                        <button type="button" class="btn btn-default btn1 btn-primary" onclick="showCompareModal();">
+                        <button type="button" class="btn btn-default btn1 btn-primary" onclick="showCompareModal(1);">
                             <span class="glyphicon glyphicon-align-justify"></span>  Compare
                         </button>
                     </td>
@@ -238,14 +333,14 @@
                 <tr>
                     <td><b>Dhanyabaad</b></td>
                     <td>
-                        <a href="mediaOfSounds/dd3.wav">
+                        <a href="templates/dd3.wav">
                             <button type="button" class="btn btn-default btn1 btn-danger">
                                 <span class="glyphicon glyphicon-play-circle"></span>  Play
                             </button>
                         </a>
                     </td>
                     <td>
-                        <button type="button" class="btn btn-default btn1 btn-primary" onclick="showCompareModal();">
+                        <button type="button" class="btn btn-default btn1 btn-primary" onclick="showCompareModal(2);">
                             <span class="glyphicon glyphicon-align-justify"></span>  Compare
                         </button>
                     </td>
