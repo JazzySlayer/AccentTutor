@@ -148,7 +148,6 @@ public class FeatureFileExtractor {
 			DTW dtw = new DTW(orginals, records);
 
 			answer = dtw.getDistance();
-			System.out.println("answer = " + answer);
 			saveAllDistances[position++] = answer;
 		} while (answer > 0 && file_num < 4);
 		int count = 0;

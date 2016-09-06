@@ -24,6 +24,7 @@
     <script src="js/bootstrap.min.js"></script>
     <script>
         $(document).ready(function(){
+            $("#result").hide();
             $("#editModal").modal("hide");
             $("#compareModal").modal("hide");
             getStandardPronunciation();
@@ -276,23 +277,7 @@
                     <h4 class="modal-title">Modal Header</h4>
                 </div>
                 <div class="modal-body">
-                    <table class="table">
-                        <thead>
-                        <tr>
-                            <th>Template 1</th>
-                            <th>Template 2</th>
-                            <th>Result</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr>
-                            <td>John</td>
-                            <td>Doe</td>
-                            <td>john@example.com</td>
-                        </tr>
-
-                        </tbody>
-                    </table>
+                    <g:render template="ajaxTemplate"/>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
