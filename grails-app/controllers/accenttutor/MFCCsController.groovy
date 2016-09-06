@@ -1,12 +1,10 @@
 package accenttutor
-
 import com.accenttutor.Configuration
 import grails.converters.JSON
 import grails.plugin.springsecurity.annotation.Secured
 import org.apache.commons.fileupload.FileItem
 import org.apache.commons.fileupload.disk.DiskFileItem
 import org.codehaus.groovy.grails.web.context.ServletContextHolder
-import org.springframework.web.multipart.MultipartHttpServletRequest
 import org.springframework.web.multipart.commons.CommonsMultipartFile
 
 class MFCCsController {
@@ -41,12 +39,13 @@ class MFCCsController {
         else if (result.get(size-1)==(0.0)){
             success = false;
         }
-
-        if(success){
-            return render([messageType:"success",result:result] as JSON)
+        result.remove(size-1)
+        println result
+        if(success) {
+            render(template: 'ajaxTemplate', model:[messageType: 'Success', result: result])
         }
         else{
-            return render([messageType:"error",result: result] as JSON)
+            render(template: 'ajaxTemplate',model: [messageType:"Error", result: result])
         }
     }
 
