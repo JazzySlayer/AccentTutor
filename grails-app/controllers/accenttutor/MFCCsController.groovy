@@ -41,11 +41,14 @@ class MFCCsController {
         }
         result.remove(size-1)
         println result
+        println "success = $success"
         if(success) {
-            render(template: '/ajaxTemplate', model:[messageType: 'Success', result: result])
+            return(render([messageType: 'success', result: result] as JSON))
+//            render(template: '/ajaxTemplate', [messageType: 'success', result: result] as JSON)
+//            return render([messageType:"success",pronun1:standPronunciation,pronun2:standPronunciation1] as JSON)
         }
         else{
-           render(template: '/ajaxTemplate',model: [messageType:'Error', result: result])
+           render(template: '/ajaxTemplate',model: [messageType:'error', result: result] )
         }
     }
 

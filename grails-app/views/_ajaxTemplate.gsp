@@ -13,10 +13,5 @@
                 </tr>
             </g:each>
         </g:if>
-        <g:else>
-            <tr>
-                <td>No Comparision</td>
-            </tr>
-        </g:else>
     </tbody>
 </table>

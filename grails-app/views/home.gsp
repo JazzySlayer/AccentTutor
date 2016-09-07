@@ -93,17 +93,21 @@
                         processData: false,
                         success: function (data) {
                             console.log("sucess");
-
                             $("#compareModal").modal("hide");
                             $('#fileName').val('');
                             if (data.messageType == "success") {
                                 showNoty('success', 'Pronunciation Matched');
+
                             }
                             else {
                                 showNoty('error', 'Pronunciation not Matched');
                             }
                             $("#result").show();
-                            $("#ajaxAfter").html(data)
+                            $("#ajaxAfter").html("<table><tr><td>Distance with Template 1: &nbsp;</td><td>"
+                                    +data.result[0]+"</td></tr>"+"<tr><td>Distance with Template 2: &nbsp;</td><td>"
+                            +data.result[1]+"</td></tr>"+"<tr><td>Distance with Template 3: &nbsp;</td><td>"
+                                    +data.result[2]+"</td></tr>"+"<tr><td>Distance with Template 4: &nbsp;</td><td>"
+                                    +data.result[3]+"</td></tr>"+"</table>")
                         },
                         error: function (err) {
                             console.log("Error")
@@ -277,7 +281,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Modal Header</h4>
+                    <h4 class="modal-title">Result</h4>
                 </div>
                 <div class="modal-body" id="ajaxAfter">
                     <g:render template="/ajaxTemplate"/>
@@ -340,9 +344,7 @@
                             </button>
                         </td>
                     </sec:ifAllGranted>
-                    <td>
-                        <button type="button" id="result" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModalResult">Open Modal</button>
-                    </td>
+
                     %{--<sec:ifAllGranted roles="ROLE_ADMIN">--}%
                         %{--<td><button type="button" class="btn btn-default btn1" onclick="EditDetails('1')" ><span class="glyphicon glyphicon-edit fa-5x"> Edit</span></button></td>--}%
                     %{--</sec:ifAllGranted>--}%
@@ -385,6 +387,8 @@
                     </tr>
                 </tbody>
             </table>
+
+                <button type="button" id="result" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModalResult">View Report</button>
         </div>
         <div class="col-md-2">
 

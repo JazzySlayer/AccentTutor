@@ -162,6 +162,7 @@ public class FeatureFileExtractor {
 		}
 
 		for (double dist:resultLists){
+			System.out.println("dist = " + dist);
 			if (dist<1){
 				nearZeroDistance = true;
 				match = true;
@@ -181,6 +182,7 @@ public class FeatureFileExtractor {
 				}
 			}
 		}
+		System.out.println("match = " + match);
 		if (match){
 			resultLists.add(1.0);
 		}
