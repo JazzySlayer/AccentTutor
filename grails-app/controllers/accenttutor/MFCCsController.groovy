@@ -42,10 +42,10 @@ class MFCCsController {
         result.remove(size-1)
         println result
         if(success) {
-            render(template: 'ajaxTemplate', model:[messageType: 'Success', result: result])
+            render(template: '/ajaxTemplate', model:[messageType: 'Success', result: result])
         }
         else{
-            render(template: 'ajaxTemplate',model: [messageType:"Error", result: result])
+           render(template: '/ajaxTemplate',model: [messageType:'Error', result: result])
         }
     }
 
